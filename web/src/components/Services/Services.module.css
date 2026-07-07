@@ -1,0 +1,87 @@
+.scrollWrapper {
+  height: 300vh;
+  position: relative;
+}
+
+.stickyContainer {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.headerContainer {
+  margin-bottom: 40px;
+}
+
+.horizontalSlider {
+  display: flex;
+  gap: 32px;
+  align-items: stretch;
+  will-change: transform;
+}
+
+.sliderPadding {
+  min-width: 10vw;
+}
+
+.slideCard {
+  width: 450px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-xl);
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  transition: transform 0.3s ease;
+}
+
+:global(body.dark) .slideCard {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.iconWrap {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(249, 115, 22, 0.06));
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(249, 115, 22, 0.15);
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardTitle {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.cardDesc {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .slideCard {
+    width: 300px;
+    padding: 30px 24px;
+  }
+
+  .headerContainer {
+    margin-top: 60px;
+  }
+}

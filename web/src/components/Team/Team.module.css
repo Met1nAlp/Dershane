@@ -1,0 +1,148 @@
+.sectionWrapper {
+  overflow: hidden;
+  position: relative;
+  background: var(--bg);
+  /* The wrapper must not have side padding so the curtain sweeps fully across */
+}
+
+.sectionInner {
+  padding: 100px 0;
+  background: var(--surface);
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  box-shadow: -10px -20px 50px rgba(0,0,0,0.1);
+  will-change: transform;
+}
+
+:global(body.dark) .sectionInner {
+  box-shadow: -10px -20px 50px rgba(0,0,0,0.5);
+  background: #111827; /* slightly distinct from bg */
+}
+
+.accordionContainer {
+  display: flex;
+  height: 500px;
+  gap: 16px;
+  width: 100%;
+}
+
+.accordionItem {
+  position: relative;
+  flex: 1;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordionItem.active {
+  flex: 4;
+  box-shadow: var(--shadow-xl);
+}
+
+.bgImage {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease;
+}
+
+.accordionItem:hover .bgImage {
+  transform: scale(1.05);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  transition: background-color 0.5s ease;
+  mix-blend-mode: multiply;
+}
+
+.content {
+  position: absolute;
+  inset: 0;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.verticalTitle {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-90deg);
+  transform-origin: left bottom;
+  white-space: nowrap;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: opacity 0.3s ease;
+}
+
+.activeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #fff;
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.name {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.branch {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: inline-block;
+  align-self: flex-start;
+  margin-bottom: 4px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.exp {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.9);
+  font-weight: 500;
+}
+
+.detail {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,1);
+  line-height: 1.5;
+  margin-top: 8px;
+  text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .accordionContainer {
+    flex-direction: column;
+    height: 800px;
+  }
+  .verticalTitle {
+    transform: none;
+    left: 30px;
+    bottom: 20px;
+  }
+}
