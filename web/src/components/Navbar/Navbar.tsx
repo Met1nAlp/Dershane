@@ -9,13 +9,23 @@ const navLinks = [
   { label: "Hakkımızda", href: "#hakkimizda" },
   { label: "Hizmetler", href: "#hizmetler" },
   { label: "Kadromuz", href: "#kadromuz" },
+  { label: "Etkinlikler", href: "#etkinlikler" },
   { label: "Başarılar", href: "#basarilar" },
   { label: "İletişim", href: "#iletisim" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  brandName: string;
+}
+
+export default function Navbar({ brandName }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  // Navbar'da yer kısıtlı olduğu için markanın yalnızca ilk üç kelimesi
+  // gösterilir (tam resmi ad footer ve sayfa başlığında kullanılıyor).
+  const words = brandName.split(" ");
+  const [firstWord, ...restWords] = words.slice(0, 3);
+  const restOfBrand = restWords.join(" ");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -30,14 +40,14 @@ export default function Navbar() {
   };
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""} ${menuOpen ? styles.menuOpen : ""}`}>
       <div className={`container ${styles.inner}`}>
-        <a href="#" className={styles.logo} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+        <a href="#" className={styles.logo} title={brandName} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
           <div className={styles.logoIcon}>
             <FaGraduationCap size={20} color="#fff" />
           </div>
           <span className={styles.logoText}>
-            Kayaalp <span className={styles.logoAccent}>Dershane</span>
+            {firstWord} {restOfBrand && <span className={styles.logoAccent}>{restOfBrand}</span>}
           </span>
         </a>
 

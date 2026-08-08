@@ -2,22 +2,15 @@
 
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { FaCalculator, FaFlask, FaGlobe, FaScroll, FaPalette, FaClipboardCheck, FaArrowTrendUp, FaBell, FaBookOpen } from "react-icons/fa6";
+import type { ServiceItem } from "@prisma/client";
+import { getIcon } from "@/lib/icons";
 import styles from "./Services.module.css";
 
-const services = [
-  { icon: FaCalculator, title: "Matematik & Geometri", desc: "Temel kavramdan ileri düzey problem çözümüne kadar kapsamlı Matematik eğitimi." },
-  { icon: FaGlobe, title: "Türkçe & Edebiyat", desc: "Sözel beceri, okuduğunu anlama ve yazılı anlatım güçlendirme programları." },
-  { icon: FaFlask, title: "Fen Bilimleri", desc: "Fizik, Kimya ve Biyoloji derslerinde deney odaklı, kalıcı öğrenme modeli." },
-  { icon: FaScroll, title: "Sosyal Bilimler", desc: "Tarih, Coğrafya ve Felsefe alanlarında soru bazlı, ezberden uzak anlatım." },
-  { icon: FaPalette, title: "Yabancı Dil", desc: "YDT ve günlük hayata yönelik İngilizce dil becerileri geliştirme programı." },
-  { icon: FaClipboardCheck, title: "Deneme Sınavları", desc: "Gerçek sınav formatında, her hafta düzenlenen TYT/AYT deneme sınavları ve analizi." },
-  { icon: FaArrowTrendUp, title: "Bireysel Etüt", desc: "Öğrencinin zayıf olduğu konulara odaklanan, birebir planlı etüt programları." },
-  { icon: FaBell, title: "Veli Bilgilendirme", desc: "Anlık devamsızlık bildirimleri, aylık veli toplantıları ve düzenli sınav raporları." },
-  { icon: FaBookOpen, title: "Rehberlik", desc: "Tercih döneminden meslek seçimine kadar uzman rehberlik öğretmenleriyle destek." },
-];
+interface ServicesProps {
+  services: ServiceItem[];
+}
 
-export default function Services() {
+export default function Services({ services }: ServicesProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const [xRange, setXRange] = useState([0, 0]);
@@ -35,7 +28,7 @@ export default function Services() {
     updateWidth();
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
-  }, []);
+  }, [services]);
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -53,7 +46,7 @@ export default function Services() {
               <h2 className="section-title">Hizmetlerimiz</h2>
               <div className="divider" style={{ marginLeft: 0 }} />
               <p className="section-subtitle" style={{ marginTop: "16px", maxWidth: "500px", marginInline: 0 }}>
-                YKS'den KPSS'ye, bireysel etütten grup derslerine kadar her ihtiyaca özel eğitim çözümleri sunuyoruz.
+                LGS&apos;den TYT/AYT&apos;ye, bireysel etütten grup derslerine kadar her ihtiyaca özel eğitim çözümleri sunuyoruz.
               </p>
             </div>
           </div>
@@ -61,17 +54,20 @@ export default function Services() {
           <motion.div ref={sliderRef} style={{ x }} className={styles.horizontalSlider}>
             <div className={styles.sliderPadding} />
 
-            {services.map((s, i) => (
-              <div key={i} className={styles.slideCard}>
-                <div className={styles.iconWrap}>
-                  <s.icon size={36} color="var(--accent)" />
+            {services.map((s) => {
+              const Icon = getIcon(s.icon);
+              return (
+                <div key={s.id} className={styles.slideCard}>
+                  <div className={styles.iconWrap}>
+                    <Icon size={36} color="var(--accent)" />
+                  </div>
+                  <div className={styles.cardContent}>
+                    <h3 className={styles.cardTitle}>{s.title}</h3>
+                    <p className={styles.cardDesc}>{s.description}</p>
+                  </div>
                 </div>
-                <div className={styles.cardContent}>
-                  <h3 className={styles.cardTitle}>{s.title}</h3>
-                  <p className={styles.cardDesc}>{s.desc}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
 
             <div className={styles.sliderPadding} />
           </motion.div>

@@ -3,8 +3,13 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function Preloader() {
+interface PreloaderProps {
+  brandName: string;
+}
+
+export default function Preloader({ brandName }: PreloaderProps) {
   const [isLoading, setIsLoading] = useState(true);
+  const firstWord = brandName.split(" ")[0].toUpperCase();
 
   useEffect(() => {
     // 1000ms delay for a smooth initial logo reveal
@@ -38,7 +43,7 @@ export default function Preloader() {
             transition={{ duration: 0.5, ease: "easeOut" }}
             style={{ color: "#fff", fontSize: "2rem", fontWeight: 800, letterSpacing: "4px" }}
           >
-            KAYAALP<span style={{ color: "var(--primary)" }}>.</span>
+            {firstWord}<span style={{ color: "var(--primary)" }}>.</span>
           </motion.div>
         </motion.div>
       )}

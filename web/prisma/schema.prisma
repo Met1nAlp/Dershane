@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── ADMIN ───────────────────────────────────────────────────
+// Tek admin hesabı — id her zaman 1, admin ayarları sayfasından
+// kullanıcı adı/şifre güncellenebilir.
+model AdminUser {
+  id           Int      @id @default(1)
+  username     String   @unique
+  passwordHash String
+  updatedAt    DateTime @updatedAt
+}
+
+// ─── HERO ────────────────────────────────────────────────────
+model HeroContent {
+  id                Int      @id @default(1)
+  badge             String
+  headingLine1      String
+  rotatingWords     String[]
+  subtext           String
+  primaryCtaLabel   String
+  secondaryCtaLabel String
+  updatedAt         DateTime @updatedAt
+}
+
+// Shared between Hero's stat row and the Stats section counters,
+// so editing a number once updates it in both places.
+model StatItem {
+  id          Int     @id @default(autoincrement())
+  order       Int     @default(0)
+  icon        String
+  value       Int
+  prefix      String?
+  suffix      String?
+  label       String
+  description String?
+  showInHero  Boolean @default(false)
+  showInStats Boolean @default(false)
+}
+
+model StatsSectionContent {
+  id          Int    @id @default(1)
+  badge       String
+  titleLine1  String
+  titleLine2  String
+  description String
+}
+
+// ─── ABOUT ───────────────────────────────────────────────────
+model AboutContent {
+  id            Int    @id @default(1)
+  badge         String
+  titleLine1    String
+  titleAccent   String
+  description   String
+  foundingYear  String
+  foundingLabel String
+  foundingSub   String
+}
+
+model AboutPillar {
+  id          Int    @id @default(autoincrement())
+  order       Int    @default(0)
+  icon        String
+  title       String
+  description String
+  highlight   String
+}
+
+// ─── SERVICES ────────────────────────────────────────────────
+model ServiceItem {
+  id          Int    @id @default(autoincrement())
+  order       Int    @default(0)
+  icon        String
+  title       String
+  description String
+}
+
+// ─── TEAM ────────────────────────────────────────────────────
+model TeamMember {
+  id              Int    @id @default(autoincrement())
+  order           Int    @default(0)
+  name            String
+  branch          String
+  experienceLabel String
+  detail          String
+  colorHex        String
+  imageUrl        String
+}
+
+// ─── EVENTS ──────────────────────────────────────────────────
+model EventItem {
+  id       Int    @id @default(autoincrement())
+  order    Int    @default(0)
+  title    String
+  tag      String
+  imageUrl String
+}
+
+// ─── CONTACT ─────────────────────────────────────────────────
+model ContactInfo {
+  id           Int     @id @default(1)
+  address      String
+  phone        String
+  email        String
+  workingHours String
+  mapEmbedUrl  String?
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String?
+  note      String?
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+}
+
+// ─── SITE SETTINGS / FOOTER ──────────────────────────────────
+model SiteSettings {
+  id           Int    @id @default(1)
+  brandName    String
+  brandTagline String
+}
+
+model SocialLink {
+  id       Int    @id @default(autoincrement())
+  order    Int    @default(0)
+  platform String
+  url      String
+}

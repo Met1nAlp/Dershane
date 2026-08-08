@@ -16,6 +16,10 @@
   box-shadow: 0 4px 24px rgba(0,0,0,0.25);
 }
 
+.header.menuOpen {
+  background: #1e293b;
+}
+
 .inner {
   display: flex;
   align-items: center;
@@ -48,6 +52,7 @@
   font-weight: 700;
   color: #fff;
   letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 .logoAccent {
@@ -108,7 +113,7 @@
   display: none;
   flex-direction: column;
   padding: 16px 24px 24px;
-  background: rgba(30, 41, 59, 0.98);
+  background: #1e293b;
   border-top: 1px solid rgba(255,255,255,0.08);
   gap: 4px;
 }

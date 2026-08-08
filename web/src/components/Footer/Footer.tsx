@@ -1,5 +1,12 @@
-import { FaGraduationCap, FaInstagram, FaXTwitter, FaYoutube, FaFacebookF } from "react-icons/fa6";
+import { FaGraduationCap } from "react-icons/fa6";
+import type { SiteSettings, SocialLink } from "@prisma/client";
+import { getIcon } from "@/lib/icons";
 import styles from "./Footer.module.css";
+
+interface FooterProps {
+  siteSettings: SiteSettings;
+  socialLinks: SocialLink[];
+}
 
 const links = [
   { label: "Hakkımızda", href: "#hakkimizda" },
@@ -9,14 +16,7 @@ const links = [
   { label: "İletişim", href: "#iletisim" },
 ];
 
-const socials = [
-  { icon: FaInstagram, href: "#", label: "Instagram" },
-  { icon: FaXTwitter, href: "#", label: "Twitter" },
-  { icon: FaYoutube, href: "#", label: "YouTube" },
-  { icon: FaFacebookF, href: "#", label: "Facebook" },
-];
-
-export default function Footer() {
+export default function Footer({ siteSettings, socialLinks }: FooterProps) {
   return (
     <footer className={styles.footer}>
       <div className="container">
@@ -26,8 +26,8 @@ export default function Footer() {
               <FaGraduationCap size={20} color="#fff" />
             </div>
             <div>
-              <div className={styles.logoText}>Kayaalp Dershane</div>
-              <div className={styles.logoSub}>Başarıya Giden Yol</div>
+              <div className={styles.logoText}>{siteSettings.brandName}</div>
+              <div className={styles.logoSub}>{siteSettings.brandTagline}</div>
             </div>
           </div>
 
@@ -40,17 +40,20 @@ export default function Footer() {
           </nav>
 
           <div className={styles.socials}>
-            {socials.map((s) => (
-              <a key={s.label} href={s.href} className={styles.socialBtn} aria-label={s.label}>
-                <s.icon size={18} />
-              </a>
-            ))}
+            {socialLinks.map((s) => {
+              const Icon = getIcon(s.platform);
+              return (
+                <a key={s.id} href={s.url} className={styles.socialBtn} aria-label={s.platform}>
+                  <Icon size={18} />
+                </a>
+              );
+            })}
           </div>
         </div>
 
         <div className={styles.bottom}>
-          <span>© {new Date().getFullYear()} Kayaalp Dershane. Tüm hakları saklıdır.</span>
-          <span>Sevgiyle yapıldı 🎓</span>
+          <span>© {new Date().getFullYear()} {siteSettings.brandName}. Tüm hakları saklıdır.</span>
+          <span>Dershane öğrencisi tarafından sevgiyle yapıldı - Metin KAYAALP</span>
         </div>
       </div>
     </footer>

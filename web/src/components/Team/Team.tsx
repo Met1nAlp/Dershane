@@ -3,27 +3,23 @@
 import { useState, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { FaStar } from "react-icons/fa6";
+import type { TeamMember } from "@prisma/client";
 import styles from "./Team.module.css";
 
-const teachers = [
-  { name: "Ahmet Yılmaz", branch: "Matematik & Geometri", exp: "14 yıl deneyim", detail: "YKS 2024'te 8 öğrencisi ilk 500'e girdi.", initials: "AY", color: "#3b82f6", image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-  { name: "Fatma Kaya", branch: "Türkçe & Edebiyat", exp: "11 yıl deneyim", detail: "Sözel alan uzmanı.", initials: "FK", color: "#8b5cf6", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-  { name: "Murat Demir", branch: "Fizik & Kimya", exp: "9 yıl deneyim", detail: "Deney odaklı öğretim.", initials: "MD", color: "#10b981", image: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-  { name: "Zeynep Arslan", branch: "Biyoloji", exp: "7 yıl deneyim", detail: "TYT Fen dereceleri uzmanı.", initials: "ZA", color: "#f59e0b", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-  { name: "Can Çelik", branch: "Tarih & Coğrafya", exp: "10 yıl deneyim", detail: "Sosyal bilimler şampiyonu.", initials: "CC", color: "#ef4444", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-  { name: "Selin Öztürk", branch: "İngilizce & YDT", exp: "8 yıl deneyim", detail: "YDT 100 tam puan koçu.", initials: "SÖ", color: "#06b6d4", image: "https://images.unsplash.com/photo-1598550874175-4d0ef43ce902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-];
+interface TeamProps {
+  team: TeamMember[];
+}
 
-export default function Team() {
+export default function Team({ team }: TeamProps) {
   const [active, setActive] = useState<number>(0);
   const sectionRef = useRef<HTMLElement>(null);
-  
+
   // Create the curtain reveal effect by sliding in from the right
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "center center"]
   });
-  
+
   const x = useTransform(scrollYProgress, [0, 1], ["100vw", "0vw"]);
 
   return (
@@ -40,23 +36,24 @@ export default function Team() {
           </div>
 
           <div className={styles.accordionContainer}>
-            {teachers.map((t, i) => (
+            {team.map((t, i) => (
               <motion.div
-                key={i}
+                key={t.id}
                 className={`${styles.accordionItem} ${active === i ? styles.active : ""}`}
                 onHoverStart={() => setActive(i)}
+                onClick={() => setActive(i)}
                 layout
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
-                <div 
-                  className={styles.bgImage} 
-                  style={{ backgroundImage: `url(${t.image})` }} 
+                <div
+                  className={styles.bgImage}
+                  style={{ backgroundImage: `url(${t.imageUrl})` }}
                 />
-                <div 
-                  className={styles.overlay} 
-                  style={{ backgroundColor: active === i ? "rgba(0,0,0,0.5)" : t.color }} 
+                <div
+                  className={styles.overlay}
+                  style={{ backgroundColor: active === i ? "rgba(0,0,0,0.5)" : t.colorHex }}
                 />
-                
+
                 <div className={styles.content}>
                   {/* Vertical title for inactive state */}
                   <div className={styles.verticalTitle} style={{ opacity: active === i ? 0 : 1 }}>
@@ -64,7 +61,7 @@ export default function Team() {
                   </div>
 
                   {/* Full content for active state */}
-                  <motion.div 
+                  <motion.div
                     className={styles.activeContent}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: active === i ? 1 : 0 }}
@@ -77,7 +74,7 @@ export default function Team() {
                     </div>
                     <h3 className={styles.name}>{t.name}</h3>
                     <div className={styles.branch}>{t.branch}</div>
-                    <div className={styles.exp}>{t.exp}</div>
+                    <div className={styles.exp}>{t.experienceLabel}</div>
                     <p className={styles.detail}>{t.detail}</p>
                   </motion.div>
                 </div>

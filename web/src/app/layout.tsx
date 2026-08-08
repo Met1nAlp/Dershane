@@ -2,29 +2,37 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Preloader from "@/components/Preloader/Preloader";
+import { getSiteSettings } from "@/lib/data/site";
 
 export const metadata: Metadata = {
-  title: "Kayaalp Dershane | Başarıya Giden Yol",
+  title: "Madalyon Akıl Treni Kurs Merkezi | Başarıya Giden Yol",
   description:
-    "Kayaalp Dershane; alanında uzman öğretmen kadrosu, güçlü sınav sistemi ve bireysel takip anlayışıyla öğrencileri hedeflerine ulaştırıyor.",
-  keywords: "dershane, kpss, yks, tyt, ayt, özel ders, eğitim merkezi",
+    "Madalyon Akıl Treni Kurs Merkezi; alanında uzman öğretmen kadrosu, güçlü sınav sistemi ve bireysel takip anlayışıyla LGS, TYT/AYT öğrencilerini hedeflerine ulaştırıyor.",
+  keywords: "kurs merkezi, lgs, tyt, ayt, özel ders, eğitim merkezi, kahramanmaraş",
   openGraph: {
-    title: "Kayaalp Dershane | Başarıya Giden Yol",
+    title: "Madalyon Akıl Treni Kurs Merkezi | Başarıya Giden Yol",
     description:
       "Alanında uzman öğretmen kadrosu ve güçlü takip sistemiyle hedeflerine ulaş.",
     type: "website",
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  let brandName = "Madalyon Akıl Treni";
+  try {
+    brandName = (await getSiteSettings()).brandName;
+  } catch {
+    // DB geçici olarak erişilemezse preloader varsayılan adla gösterilir.
+  }
+
   return (
     <html lang="tr">
       <body>
-        <Preloader />
+        <Preloader brandName={brandName} />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

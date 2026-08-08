@@ -1,0 +1,128 @@
+# DERSHANE YÖNETİM VE TAKİP SİSTEMİ
+
+## YAZILIM İHTİYAÇ VE MİMARİ PLANLAMA BELGESİ (SRS) v1.1
+
+Proje Türü: Çapraz Platform Mobil Uygulama ve Web Yönetim Paneli
+Geliştirici: Sistem Mimarı Metin Kayaalp
+Hedef Platformlar: iOS, Android ve Web (Tarayıcı)
+
+---
+
+### 1. TEKNOLOJİ YIĞINI (TECH STACK)
+
+Projenin tek ekosistemde, hızlı ve bakımı kolay bir şekilde geliştirilmesi için JavaScript/TypeScript temelli mimari tercih edilmiştir.
+
+* **Mobil Geliştirme Çerçevesi:** React Native (Expo Managed Workflow)
+* **Web Geliştirme Çerçevesi:** React.js / Next.js (Admin ve Veli/Öğrenci masaüstü erişimi için)
+* **Programlama Dili:** TypeScript (Tip güvenliği, oto-tamamlama ve hata tespiti için zorunlu)
+* **Durum Yönetimi (State Management):** Zustand (Redux'ın hantallığından kaçınmak için)
+* **Veritabanı ve Backend Hizmetleri:** Firebase
+  * **Kimlik Doğrulama:** Firebase Auth
+  * **Veritabanı:** Cloud Firestore (NoSQL)
+  * **Dosya Yönetimi:** Firebase Cloud Storage (Ödev PDF'leri, profil fotoğrafları, soru görselleri)
+  * **Bildirimler:** Firebase Cloud Messaging (FCM)
+  * **Güvenlik:** Firestore Security Rules (Veri erişim yetkilendirmesi)
+* **Navigasyon:** React Navigation (Mobil için Native Stack ve Bottom Tabs), Web için Next.js App Router veya React Router.
+
+---
+
+### 2. UI/UX TASARIM STANDARTLARI
+
+Uygulama ve web sitesi, eğitim kurumunun kurumsal kimliğini yansıtacak, modern ve kullanımı kolay bir arayüze sahip olacaktır.
+
+#### 2.1. Renk Paleti
+* **Ana Renk (Primary - Koyu Lacivert):** `#1E293B` (Header, alt bar, ana başlıklar)
+* **Vurgu Rengi (Accent - Enerjik Turuncu):** `#F97316` (Aksiyon butonları, bildirim badge'leri, ikonlar)
+* **Arka Plan (Background - Kırık Gri):** `#F8FAFC` (Göz yormaması için saf beyaz yerine tercih edilmiştir)
+* **Yüzey (Surface - Saf Beyaz):** `#FFFFFF` (İçerik kartları ve form alanları)
+
+#### 2.2. Ekran Düzeni ve Yerleşim (Layout)
+* **Mobil Dashboard:** Ekran alanını maksimum verimlilikle kullanan 2x2 grid (ızgara) tasarımı standart olarak uygulanacaktır.
+* **Web / Tablet Dashboard:** Geniş ekranlar için sol tarafta sabit bir "Sidebar" (yan menü) ve sağ tarafta veri tabloları/grafikler şeklinde responsive (duyarlı) tasarım benimsenecektir.
+* **Kart Detayları:** `borderRadius: 16`, hafif gölgelendirme. Her kartın merkezinde vurgu renginde vektörel ikon bulunacaktır.
+
+#### 2.3. Tipografi ve Formlar
+* **Font Ailesi:** `Inter` (Google Fonts - Okunabilirlik ve kurumsal duruş için).
+* **İnput Alanları:** Outlined (kutu içi) tasarım, açık gri arka plan (`#F1F5F9`), odaklanıldığında (focus) ana lacivert rengine dönen kenarlıklar.
+* **Butonlar:** `borderRadius: 12`, tam genişlik, kalın beyaz metin.
+
+---
+
+### 3. VERİTABANI MİMARİSİ (FIRESTORE KOLEKSİYONLARI)
+
+NoSQL yapısına uygun, okuma maliyetlerini düşürecek genişletilmiş veri şeması:
+
+| Koleksiyon | Döküman Alanları | Açıklama |
+| :--- | :--- | :--- |
+| `users` | `uid`, `tc_no`, `ad_soyad`, `role` (admin, ogretmen, ogrenci, veli), `aktif_mi` | Temel yetkilendirme ve profil verileri. |
+| `students_info` | `user_id`, `veli_ids` (Array), `sinif_id`, `kayit_tarihi` | Öğrenciye özel detaylar. Bir öğrencinin birden çok velisi olabilir. |
+| `classes` | `sinif_id`, `sinif_adi` (Örn: 12-A), `danisman_id` | Sınıf tanımlamaları. |
+| `schedules` | `sinif_id`, `gun`, `saat`, `ders_adi`, `ogretmen_id` | Haftalık ders programı havuzu. |
+| `attendance` | `tarih`, `ders_saati`, `sinif_id`, `olmayanlar` (UID dizisi) | Yoklama kayıtları. |
+| `exams` | `sinav_adi`, `tarih`, `sonuclar` (Map: `{uid: {turkce_d, turkce_y, mat_d, mat_y, toplam_puan}}`) | Deneme sınavı detaylı sonuçları. |
+| `assignments` | `sinif_id`, `ogretmen_id`, `baslik`, `aciklama`, `dosya_url`, `son_tarih` | Sınıflara verilen ödevler. |
+| `tutoring_sessions` | `ogretmen_id`, `ogrenci_id`, `tarih_saat`, `durum` (onay_bekliyor, onaylandi, iptal) | Birebir etüt ve randevu kayıtları. |
+| `payments` | `veli_id`, `ogrenci_id`, `tutar`, `vade_tarihi`, `odeme_durumu` (odendi, beklemede, gecikmis) | Finans ve taksit takibi. |
+| `messages` / `tickets` | `gonderen_id`, `alici_id`, `konu`, `mesaj`, `tarih`, `durum` | İletişim ve destek talepleri. |
+
+---
+
+### 4. KULLANICI ROLLERİ VE ERİŞİM MODÜLLERİ
+
+#### 4.1. Yönetici (Admin) Modülü (Ağırlıklı Web Paneli)
+* **Kullanıcı ve Rol Yönetimi:** Sisteme kullanıcı ekleme, silme, yetki düzenleme.
+* **Finans ve Muhasebe:** Öğrenci taksitlerini oluşturma, ödeme alanlarını (Sanal POS entegrasyonu ile) yönetme, geciken ödemeleri raporlama.
+* **Sınıf/Program Yönetimi:** Sınıf listeleri ve ders programı hazırlama.
+* **Duyuru Merkezi:** Anlık bildirim (FCM) gönderme.
+
+#### 4.2. Öğretmen Modülü
+* **Ana Ekran:** Günlük ders ve etüt programı.
+* **Yoklama Modülü:** Pratik "Geldi/Gelmedi" butonlarıyla yoklama alma.
+* **Akademik Modül:** Ödev tanımlama, Firebase Storage'a ödev dökümanı (PDF) yükleme.
+* **Etüt Modülü:** Boş saatlerini belirleme, öğrencilerden gelen etüt taleplerini onaylama.
+
+#### 4.3. Öğrenci Modülü
+* **Ana Ekran (2x2 Grid):** Ders Programı, Devamsızlık, Sınav Sonuçları, Ödevler.
+* **Gelişim Grafikleri:** `react-native-chart-kit` (veya web'de Recharts vb.) ile detaylı branş ve genel deneme analizi.
+* **Etüt ve Soru Çözüm:** Öğretmenden etüt talep etme, çözülemeyen soruları fotoğraflayıp sisteme yükleme.
+
+#### 4.4. Veli Modülü
+* **Çoklu Öğrenci Desteği (Switch Student):** Birden fazla çocuğu olan velilerin öğrenciler arası kolay geçiş yapabilmesi.
+* **Öğrenci Takibi:** Devamsızlık, sınav grafikleri ve ödev durumu görüntüleme (Salt okunur).
+* **Finans Takibi:** Taksit ödemelerini görüntüleme ve kredi kartı ile çevrimiçi ödeme yapabilme.
+* **Bildirimler:** Devamsızlık ve geciken ödemeler için anlık bildirimler.
+* **İletişim:** Öğretmen veya rehberlikle mesajlaşma/randevu oluşturma.
+
+---
+
+### 5. ADIM ADIM GELİŞTİRME FAZLARI (YOL HARİTASI)
+
+1. **FAZ 1: Altyapı ve Konfigürasyon**
+   * Expo (Mobil) ve Next.js (Web) projelerinin başlatılması.
+   * Firebase entegrasyonu (Firestore, Auth, Storage).
+   * Firestore Security Rules (Güvenlik Kuralları) tanımlanarak yetkisiz erişimlerin engellenmesi.
+   * Zustand store yapısının kurulması.
+
+2. **FAZ 2: Auth ve Navigasyon**
+   * Login ekranlarının kodlanması.
+   * Rol bazlı (Role-based) yönlendirmelerin (Admin, Öğrenci, Öğretmen, Veli) mobil ve web için kurulması.
+
+3. **FAZ 3: Global UI Bileşenleri**
+   * Web ve Mobil için ortak renk paleti/tema dosyasının oluşturulması.
+   * Tekrar kullanılabilir UI elementlerinin (`GridCard`, `CustomButton`, vb.) kodlanması.
+
+4. **FAZ 4: Çekirdek Modüllerin Kodlanması**
+   * Admin paneli (Kullanıcı, Sınıf ve Finans yönetimi ağırlıklı web tabanlı).
+   * Öğretmen modülü (Yoklama, Ödev, Etüt onaylama).
+   * Öğrenci/Veli modülü (Bilgi görüntüleme, Taksit takibi, Etüt talebi).
+
+5. **FAZ 5: İleri Düzey Entegrasyonlar ve Cila**
+   * Firebase Cloud Messaging (FCM) ile anlık bildirimler.
+   * Firebase Cloud Storage ile dosya yükleme entegrasyonları.
+   * İyzico/Stripe vb. Sanal POS ile online ödeme entegrasyonu.
+   * Firestore Offline Persistence aktif edilerek çevrimdışı çalışma desteği sağlanması (AsyncStorage yerine).
+
+6. **FAZ 6: Test ve Dağıtım**
+   * Performans optimizasyonları (Gereksiz render'ların önlenmesi vb.).
+   * Web panelinin Vercel veya Firebase Hosting'e deploy edilmesi.
+   * Mobil uygulamanın `.aab` (Android) ve `.ipa` (iOS) çıktılarının alınarak App Store ve Google Play'e yüklenmesi.

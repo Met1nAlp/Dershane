@@ -2,21 +2,26 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaArrowRight, FaChevronDown, FaTrophy, FaUsers, FaBookOpen } from "react-icons/fa6";
+import { FaArrowRight, FaChevronDown } from "react-icons/fa6";
+import type { HeroContent, StatItem } from "@prisma/client";
 import MagneticButton from "@/components/MagneticButton/MagneticButton";
+import { getIcon } from "@/lib/icons";
 import styles from "./Hero.module.css";
 
-const stats = [
-  { icon: FaTrophy, value: "2.400+", label: "Üniversite Yerleşimi" },
-  { icon: FaUsers, value: "150+", label: "Uzman Öğretmen" },
-  { icon: FaBookOpen, value: "18", label: "Yıllık Deneyim" },
-];
+interface HeroProps {
+  hero: HeroContent;
+  heroStats: StatItem[];
+}
 
-export default function Hero() {
+function formatStatValue(s: StatItem) {
+  return `${s.prefix ?? ""}${s.value.toLocaleString("tr-TR")}${s.suffix ?? ""}`;
+}
+
+export default function Hero({ hero, heroStats }: HeroProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [scrollY, setScrollY] = useState(0);
 
-  const rotatingWords = ["Yanındayız", "Rehberiniz", "Destekçiniz"];
+  const rotatingWords = hero.rotatingWords;
   const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
@@ -24,7 +29,7 @@ export default function Hero() {
       setWordIndex((prev) => (prev + 1) % rotatingWords.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [rotatingWords]);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -101,7 +106,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <motion.div className="badge" style={{ marginBottom: "24px" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }}>
-            🏆 Türkiye&apos;nin Güvenilir Eğitim Merkezi
+            {hero.badge}
           </motion.div>
 
           <motion.h1
@@ -110,7 +115,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Hedefine Giden Yolda
+            {hero.headingLine1}
             <br />
             <span className={styles.headingAccentWrapper}>
               <AnimatePresence mode="wait">
@@ -134,9 +139,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            Uzman öğretmen kadrosu, bireysel takip sistemi ve güçlü deneme sınav
-            altyapısıyla seni başarıya taşıyoruz. YKS, KPSS ve daha fazlası için
-            doğru adrestesin.
+            {hero.subtext}
           </motion.p>
 
           <motion.div
@@ -149,13 +152,13 @@ export default function Hero() {
               className="btn btn-primary"
               onClick={() => { const el = document.getElementById("iletisim"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
             >
-              Hemen Kayıt Ol <FaArrowRight size={16} />
+              {hero.primaryCtaLabel} <FaArrowRight size={16} />
             </MagneticButton>
             <button
               className="btn btn-secondary"
               onClick={() => { const el = document.getElementById("hizmetler"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
             >
-              Hizmetlerimiz
+              {hero.secondaryCtaLabel}
             </button>
           </motion.div>
         </motion.div>
@@ -166,23 +169,26 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
         >
-          {stats.map((s, i) => (
-            <motion.div
-              key={i}
-              className={styles.statItem}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.7 + i * 0.1 }}
-            >
-              <div className={styles.statIcon}>
-                <s.icon size={22} color="var(--accent)" />
-              </div>
-              <div>
-                <div className={styles.statValue}>{s.value}</div>
-                <div className={styles.statLabel}>{s.label}</div>
-              </div>
-            </motion.div>
-          ))}
+          {heroStats.map((s, i) => {
+            const Icon = getIcon(s.icon);
+            return (
+              <motion.div
+                key={s.id}
+                className={styles.statItem}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.7 + i * 0.1 }}
+              >
+                <div className={styles.statIcon}>
+                  <Icon size={22} color="var(--accent)" />
+                </div>
+                <div>
+                  <div className={styles.statValue}>{formatStatValue(s)}</div>
+                  <div className={styles.statLabel}>{s.label}</div>
+                </div>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
 
