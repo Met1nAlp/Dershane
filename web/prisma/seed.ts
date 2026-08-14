@@ -24,7 +24,7 @@ async function main() {
     where: { id: 1 },
     create: {
       id: 1,
-      badge: "🏆 Türkiye'nin Güvenilir Eğitim Merkezi",
+      badge: "Türkiye'nin Güvenilir Eğitim Merkezi",
       headingLine1: "Hedefine Giden Yolda",
       rotatingWords: ["Yanındayız", "Rehberiniz", "Destekçiniz"],
       subtext:
@@ -39,7 +39,7 @@ async function main() {
     where: { id: 1 },
     create: {
       id: 1,
-      badge: "📈 Kanıtlanmış Sistem",
+      badge: "Kanıtlanmış Sistem",
       titleLine1: "Başarı",
       titleLine2: "Hikayemiz",
       description:
@@ -97,7 +97,7 @@ async function main() {
     where: { id: 1 },
     create: {
       id: 1,
-      badge: "✨ Biz Kimiz",
+      badge: "Biz Kimiz",
       titleLine1: "Başarının Arkasında",
       titleAccent: "18 Yıllık Deneyim",
       description:

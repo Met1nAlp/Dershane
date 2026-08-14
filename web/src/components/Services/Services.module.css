@@ -14,14 +14,41 @@
 }
 
 .headerContainer {
+  position: relative;
+  z-index: 1;
   margin-bottom: 40px;
 }
 
 .horizontalSlider {
+  position: relative;
+  z-index: 1;
   display: flex;
   gap: 32px;
   align-items: stretch;
   will-change: transform;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.backdropItem {
+  position: absolute;
+  color: var(--accent);
+  opacity: 0.14;
+  animation: floatSymbol 6s ease-in-out infinite;
+}
+
+@keyframes floatSymbol {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-16px) rotate(var(--r, 0deg)); }
+}
+
+@media (max-width: 768px) {
+  .backdrop { display: none; }
 }
 
 .sliderPadding {
@@ -76,12 +103,62 @@
 }
 
 @media (max-width: 768px) {
+  /* Mobilde scroll-jack yerine parmakla dogal yatay kaydirma:
+     bolum artik sayfayi kilitlemiyor, slider kendi icinde kayiyor. */
+  .scrollWrapper {
+    height: auto;
+  }
+
+  .stickyContainer {
+    position: relative;
+    top: auto;
+    height: auto;
+    overflow: visible;
+    padding: 64px 0;
+  }
+
+  .horizontalSlider {
+    gap: 16px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .horizontalSlider::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sliderPadding {
+    min-width: 8px;
+  }
+
   .slideCard {
-    width: 300px;
-    padding: 30px 24px;
+    width: 78vw;
+    max-width: 300px;
+    padding: 28px 22px;
+    gap: 20px;
+    scroll-snap-align: center;
+  }
+
+  .iconWrap {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cardTitle {
+    font-size: 1.25rem;
+  }
+
+  .cardDesc {
+    font-size: 1rem;
+    line-height: 1.6;
   }
 
   .headerContainer {
-    margin-top: 60px;
+    margin-top: 40px;
+    margin-bottom: 28px;
   }
 }

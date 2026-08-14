@@ -1,12 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --primary: #1E293B;
-  --primary-light: #2d3f55;
+  --primary: #1B3A5C;
+  --primary-light: #2f5c86;
+  --primary-bg: #C4D0E0;
+  --primary-bg-light: #E4E9F1;
   --accent: #F97316;
   --accent-light: #fb923c;
   --accent-dark: #ea6c0a;
-  --bg: #F8FAFC;
+  --bg: #F5F7FA;
   --surface: #FFFFFF;
   --surface-2: #f1f5f9;
   --text-primary: #0f172a;
@@ -126,13 +128,13 @@ a { text-decoration: none; color: inherit; }
 
 .btn-secondary {
   background: transparent;
-  color: var(--surface);
-  border: 1.5px solid rgba(255,255,255,0.35);
+  color: var(--primary);
+  border: 1.5px solid rgba(27,58,92,0.35);
 }
 
 .btn-secondary:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.55);
+  background: rgba(27,58,92,0.06);
+  border-color: rgba(27,58,92,0.55);
   transform: translateY(-2px);
 }
 
@@ -206,4 +208,16 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 768px) {
   .section { padding: 64px 0; }
   .section-header { margin-bottom: 40px; }
+
+  /* Badge 12.8px ile okunabilirlik sinirindaydi */
+  .badge {
+    font-size: 0.85rem;
+    padding: 7px 14px;
+  }
+
+  /* Dokunma hedefi minimumu (Apple/Google onerisi 44px) */
+  .btn {
+    min-height: 44px;
+    padding: 12px 22px;
+  }
 }

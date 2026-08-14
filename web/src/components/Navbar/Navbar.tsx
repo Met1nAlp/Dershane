@@ -21,6 +21,7 @@ interface NavbarProps {
 export default function Navbar({ brandName }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState("");
   // Navbar'da yer kısıtlı olduğu için markanın yalnızca ilk üç kelimesi
   // gösterilir (tam resmi ad footer ve sayfa başlığında kullanılıyor).
   const words = brandName.split(" ");
@@ -29,6 +30,29 @@ export default function Navbar({ brandName }: NavbarProps) {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sections = navLinks
+      .map((link) => document.querySelector(link.href))
+      .filter((el): el is HTMLElement => !!el);
+
+    if (!sections.length) return;
+
+    const onScroll = () => {
+      const probe = window.scrollY + window.innerHeight * 0.35;
+      let current = sections[0];
+      for (const el of sections) {
+        if (el.offsetTop <= probe) {
+          current = el;
+        }
+      }
+      setActiveHref(`#${current.id}`);
+    };
+
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -55,7 +79,7 @@ export default function Navbar({ brandName }: NavbarProps) {
           {navLinks.map((link) => (
             <button
               key={link.href}
-              className={styles.navLink}
+              className={`${styles.navLink} ${activeHref === link.href ? styles.navLinkActive : ""}`}
               onClick={() => handleNavClick(link.href)}
             >
               {link.label}
@@ -83,7 +107,7 @@ export default function Navbar({ brandName }: NavbarProps) {
           {navLinks.map((link) => (
             <button
               key={link.href}
-              className={styles.mobileNavLink}
+              className={`${styles.mobileNavLink} ${activeHref === link.href ? styles.mobileNavLinkActive : ""}`}
               onClick={() => handleNavClick(link.href)}
             >
               {link.label}

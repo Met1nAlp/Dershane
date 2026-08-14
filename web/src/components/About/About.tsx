@@ -16,7 +16,7 @@ export default function About({ about, pillars }: AboutProps) {
   const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
 
   return (
-    <section className="section" id="hakkimizda" style={{ background: "var(--surface)", position: "relative" }} ref={ref}>
+    <section className={`section ${styles.section}`} id="hakkimizda" ref={ref}>
       <div className="container">
         <div className={styles.layout}>
 

@@ -40,3 +40,6 @@ Thumbs.db
 
 # Misc
 *.tsbuildinfo
+
+# Video karelerinin ham hali (public/journey.mp4 kullaniliyor)
+web/Görseller/

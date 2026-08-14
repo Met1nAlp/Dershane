@@ -22,9 +22,9 @@
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(15, 23, 42, 0.88) 0%,
-    rgba(30, 41, 59, 0.80) 50%,
-    rgba(15, 23, 42, 0.92) 100%
+    rgba(196, 208, 224, 0.93) 0%,
+    rgba(228, 233, 241, 0.88) 50%,
+    rgba(196, 208, 224, 0.93) 100%
   );
 }
 
@@ -58,7 +58,7 @@
 .heading {
   font-size: clamp(2.4rem, 6vw, 4rem);
   font-weight: 900;
-  color: #fff;
+  color: var(--primary);
   line-height: 1.1;
   margin-bottom: 20px;
   letter-spacing: -0.03em;
@@ -80,7 +80,7 @@
 
 .subtext {
   font-size: 1.1rem;
-  color: rgba(255,255,255,0.72);
+  color: rgba(27,58,92,0.75);
   max-width: 600px;
   line-height: 1.75;
   margin-bottom: 36px;
@@ -97,9 +97,9 @@
 .statsRow {
   display: flex;
   gap: 0;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.5);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(27,58,92,0.1);
   border-radius: var(--radius-xl);
   padding: 8px;
   flex-wrap: wrap;
@@ -121,7 +121,7 @@
   top: 20%;
   height: 60%;
   width: 1px;
-  background: rgba(255,255,255,0.12);
+  background: rgba(27,58,92,0.15);
 }
 
 .statIcon {
@@ -138,7 +138,7 @@
 .statValue {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--primary);
   letter-spacing: -0.02em;
   line-height: 1;
   margin-bottom: 4px;
@@ -146,7 +146,7 @@
 
 .statLabel {
   font-size: 0.8rem;
-  color: rgba(255,255,255,0.55);
+  color: rgba(27,58,92,0.6);
   font-weight: 500;
 }
 
@@ -157,7 +157,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: transparent;
-  border: 1.5px solid rgba(255,255,255,0.2);
+  border: 1.5px solid rgba(27,58,92,0.25);
   border-radius: 50%;
   width: 44px;
   height: 44px;
@@ -171,7 +171,7 @@
 }
 
 .scrollCue:hover {
-  border-color: rgba(255,255,255,0.45);
+  border-color: rgba(27,58,92,0.5);
 }
 
 @keyframes bounce {
@@ -180,7 +180,51 @@
 }
 
 @media (max-width: 768px) {
-  .statItem { padding: 14px 20px; }
   .statItem:not(:last-child)::after { display: none; }
   .heading { font-size: 2.2rem; }
+
+  /* Icerigi ekrana sigdir: bosluklari daralt */
+  .content {
+    gap: 28px;
+    padding-top: 64px;
+  }
+
+  .subtext {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+
+  /* Istatistikler alt alta 3 satir olup ekrandan tasiyordu.
+     Tek satirda, ikonsuz ve kompakt goster. */
+  .statsRow {
+    width: 100%;
+    flex-wrap: nowrap;
+    padding: 10px 4px;
+    gap: 0;
+  }
+
+  .statItem {
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    padding: 8px 4px;
+  }
+
+  .statIcon { display: none; }
+
+  .statValue {
+    font-size: 1.25rem;
+    margin-bottom: 2px;
+  }
+
+  .statLabel {
+    font-size: 0.7rem;
+    line-height: 1.25;
+  }
+
+  /* Ok, istatistik kartinin uzerine biniyordu */
+  .scrollCue { display: none; }
 }

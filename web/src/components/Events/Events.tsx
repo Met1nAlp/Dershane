@@ -42,15 +42,21 @@ export default function Events({ events }: EventsProps) {
   return (
     <section className="section" id="etkinlikler" style={{ background: "var(--bg)" }}>
       <div className="container">
-        <div className="section-header">
-          <span className="badge">🎉 Sosyal Hayat</span>
+        <motion.div
+          className="section-header"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <span className="badge">Sosyal Hayat</span>
           <h2 className="section-title">Sınıfın Ötesinde Anılar</h2>
           <div className="divider" />
           <p className="section-subtitle" style={{ marginTop: "16px" }}>
             Piknikten futbol turnuvasına, bilim şenliğinden mezuniyet gecesine kadar
             öğrencilerimizle birlikte yaşadığımız anlardan kareler.
           </p>
-        </div>
+        </motion.div>
 
         <div className={styles.grid}>
           {events.map((e, i) => {

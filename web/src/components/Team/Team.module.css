@@ -135,14 +135,138 @@
   margin-bottom: 8px;
 }
 
+/* Yalnizca mobilde render ediliyor; masaustu icin gizli */
+.chevron {
+  display: none;
+}
+
+/* ============================================================
+   MOBIL: Fotograf uzerine yazi yerlestirmek kacinilmaz olarak
+   kontrast savasi yaratiyordu (perde yuzu kapatiyor, portre
+   107px'lik seride kirpiliyordu). Bunun yerine fotograf yanda
+   net gorunen bir avatara alindi; yazi beyaz kart uzerinde.
+   Sitenin mevcut dili: beyaz kart + turuncu pill + lacivert yazi.
+   ============================================================ */
 @media (max-width: 900px) {
+  .sectionInner {
+    padding: 64px 0;
+  }
+
   .accordionContainer {
     flex-direction: column;
-    height: 800px;
+    height: auto;
+    gap: 10px;
   }
-  .verticalTitle {
+
+  .accordionItem,
+  .accordionItem.active {
+    flex: none !important;
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+  }
+
+  .accordionItem.active {
+    border-color: rgba(249, 115, 22, 0.35);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Arka plan serit degil, net gorunen avatar */
+  .bgImage {
+    position: relative;
+    inset: auto;
+    width: 66px;
+    height: 66px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background-position: center 18%;
+    transition: none;
+  }
+
+  .accordionItem:hover .bgImage {
     transform: none;
-    left: 30px;
-    bottom: 20px;
+  }
+
+  /* Perde artik gereksiz: yazi fotografin uzerinde degil */
+  .overlay {
+    display: none;
+  }
+
+  .content {
+    position: relative;
+    inset: auto;
+    flex: 1;
+    min-width: 0;
+    min-height: 66px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .activeContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    max-width: 100%;
+    color: var(--text-primary);
+    pointer-events: none;
+  }
+
+  /* Beyaz kart uzerinde koyu lacivert; golgeye gerek yok */
+  .name {
+    color: var(--primary);
+    font-size: 1.02rem;
+    line-height: 1.25;
+    text-shadow: none;
+  }
+
+  /* Sitenin turuncu badge dili */
+  .branch {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(249, 115, 22, 0.1);
+    border: 1px solid rgba(249, 115, 22, 0.22);
+    backdrop-filter: none;
+    padding: 3px 10px;
+    margin-bottom: 0;
+  }
+
+  .exp {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .detail {
+    align-self: stretch;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    text-shadow: none;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .chevron {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin-top: 19px;
+    border-radius: 50%;
+    color: var(--accent);
+    background: rgba(249, 115, 22, 0.09);
   }
 }

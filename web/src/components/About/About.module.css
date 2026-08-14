@@ -1,4 +1,41 @@
+/* Kareli defter dokusu + pastel gradyan. Desen ::before, gradyan ::after
+   katmaninda; ikisi de icerik akisinin altinda kalir. */
+.section {
+  position: relative;
+  isolation: isolate;
+  background: var(--surface);
+}
+
+.section::before,
+.section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.section::before {
+  background-image:
+    linear-gradient(to right, rgba(27, 58, 92, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27, 58, 92, 0.055) 1px, transparent 1px);
+  background-size: 56px 56px;
+  /* Desen kenarlarda erisin, sert kesim olmasin */
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 35%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 35%, transparent 85%);
+}
+
+.section::after {
+  background: linear-gradient(
+    180deg,
+    rgba(196, 208, 224, 0.55) 0%,
+    rgba(228, 233, 241, 0.22) 38%,
+    transparent 70%
+  );
+}
+
 .layout {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
@@ -30,12 +67,12 @@
   width: 100%;
   max-width: 280px;
   padding: 30px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  background: linear-gradient(135deg, var(--primary-bg), var(--primary-bg-light));
   border-radius: var(--radius-xl);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 20px 60px rgba(30,41,59,0.35), var(--shadow-glow);
+  box-shadow: 0 20px 60px rgba(27,58,92,0.18), var(--shadow-glow);
   margin-top: 20px;
 }
 
@@ -54,13 +91,13 @@
 .yearLabel {
   font-size: 1rem;
   font-weight: 600;
-  color: rgba(255,255,255,0.85);
+  color: rgba(27,58,92,0.85);
   margin-top: 6px;
 }
 
 .yearSub {
   font-size: 0.8rem;
-  color: rgba(255,255,255,0.45);
+  color: rgba(27,58,92,0.55);
   margin-top: 4px;
 }
 
@@ -132,6 +169,36 @@
 
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; gap: 40px; }
-  .textSide { position: relative; top: 0; }
-  .stickyCard { position: relative; top: 0 !important; }
+
+  /* Sticky kapatilmisti; masaustundeki ust uste yigilma efekti mobilde de
+     calissin diye geri aciyoruz. textSide akista kalmali, yoksa kartlarin
+     arkasina yapisip kaliyor. */
+  .textSide {
+    position: relative;
+    top: 0;
+  }
+
+  .mainCard {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cardsSide {
+    gap: 40px;
+    padding-bottom: 40px;
+  }
+
+  .stickyCard {
+    padding: 28px 22px;
+    gap: 16px;
+  }
+
+  .pillarIcon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .pillarTitle {
+    font-size: 1.2rem;
+  }
 }

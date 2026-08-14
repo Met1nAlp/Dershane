@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { FaLocationDot, FaPhone, FaEnvelope, FaClock, FaPaperPlane, FaCircleCheck } from "react-icons/fa6";
 import type { ContactInfo } from "@prisma/client";
 import { submitContactFormAction } from "@/lib/actions/contact";
@@ -46,17 +47,29 @@ export default function Contact({ contact }: ContactProps) {
   return (
     <section className="section" id="iletisim" style={{ background: "var(--surface)" }}>
       <div className="container">
-        <div className="section-header">
-          <span className="badge">📞 Bize Ulaşın</span>
+        <motion.div
+          className="section-header"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <span className="badge">Bize Ulaşın</span>
           <h2 className="section-title">İletişim & Kayıt</h2>
           <div className="divider" />
           <p className="section-subtitle" style={{ marginTop: "16px" }}>
             Kayıt, bilgi almak veya ücretsiz deneme dersi için formu doldurun, sizi arayalım.
           </p>
-        </div>
+        </motion.div>
 
         <div className={styles.layout}>
-          <div className={styles.infoSide}>
+          <motion.div
+            className={styles.infoSide}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             <div className={styles.infoCard}>
               {info.map((item, i) => (
                 <div key={i} className={styles.infoRow}>
@@ -84,14 +97,20 @@ export default function Contact({ contact }: ContactProps) {
                 <span>Harita yakında eklenecek</span>
               </div>
             )}
-          </div>
+          </motion.div>
 
-          <div className={styles.formSide}>
+          <motion.div
+            className={styles.formSide}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             {sent ? (
               <div className={styles.successBox}>
                 <FaCircleCheck size={48} color="var(--accent)" />
                 <h3>Mesajınız İletildi!</h3>
-                <p>En kısa sürede sizi arayacağız. Tercih ettiğiniz için teşekkürler 🎉</p>
+                <p>En kısa sürede sizi arayacağız. Tercih ettiğiniz için teşekkürler.</p>
                 <button className="btn btn-outline" onClick={() => setSent(false)}>Yeni Mesaj Gönder</button>
               </div>
             ) : (
@@ -121,7 +140,7 @@ export default function Contact({ contact }: ContactProps) {
                 </button>
               </form>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

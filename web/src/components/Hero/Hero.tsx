@@ -193,7 +193,7 @@ export default function Hero({ hero, heroStats }: HeroProps) {
       </div>
 
       <button className={styles.scrollCue} onClick={scrollDown} aria-label="Aşağı kaydır">
-        <FaChevronDown size={18} color="rgba(255,255,255,0.6)" />
+        <FaChevronDown size={18} color="rgba(27,58,92,0.55)" />
       </button>
     </section>
   );

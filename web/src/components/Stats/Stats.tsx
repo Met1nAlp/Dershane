@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { motion, useInView, animate } from "framer-motion";
+import { motion, useInView, useScroll, useMotionValueEvent, animate } from "framer-motion";
 import type { StatItem, StatsSectionContent } from "@prisma/client";
 import styles from "./Stats.module.css";
 
@@ -32,9 +32,41 @@ function AnimatedCounter({ value, prefix = "", suffix = "" }: { value: number, p
   return <div className={styles.statValue} ref={ref}>{prefix}0{suffix}</div>;
 }
 
-export default function StatsSection({ statsSection, statsItems }: StatsSectionProps) {
+function JourneyVideo({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const video = videoRef.current;
+    if (!video || !video.duration || Number.isNaN(video.duration)) return;
+    video.currentTime = Math.min(Math.max(latest, 0), 1) * video.duration;
+  });
+
   return (
-    <section className={styles.statsSection} id="basarilar">
+    <div className={styles.journeyVisual}>
+      <video
+        ref={videoRef}
+        className={styles.journeyVideo}
+        src="/journey.mp4"
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      />
+    </div>
+  );
+}
+
+export default function StatsSection({ statsSection, statsItems }: StatsSectionProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  return (
+    <section className={styles.statsSection} id="basarilar" ref={sectionRef}>
+      <JourneyVideo sectionRef={sectionRef} />
+
       <div className={`container ${styles.container}`}>
 
         <div className={styles.stickyColumn}>

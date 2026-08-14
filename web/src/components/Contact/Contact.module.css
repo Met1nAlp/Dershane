@@ -56,14 +56,14 @@
 
 .mapPlaceholder {
   height: 160px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  background: linear-gradient(135deg, var(--primary-bg), var(--primary-bg-light));
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(27,58,92,0.55);
   font-size: 0.85rem;
   font-weight: 500;
 }
@@ -133,7 +133,7 @@
 
 .input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(30,41,59,0.06);
+  box-shadow: 0 0 0 3px rgba(27,58,92,0.08);
 }
 
 .textarea {
@@ -172,4 +172,14 @@
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
   .formRow { grid-template-columns: 1fr; }
+
+  /* iOS Safari, 16px altindaki bir input'a odaklaninca sayfayi
+     otomatik yakinlastirir ve geri cikmaz. 16px bunu engeller. */
+  .input {
+    font-size: 16px;
+  }
+
+  .formSide {
+    padding: 24px 20px;
+  }
 }
