@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { FaChevronDown } from "react-icons/fa6";
 import type { EventItem, EventsSectionContent } from "@prisma/client";
 import styles from "./Events.module.css";
 
@@ -114,22 +113,15 @@ export default function Events({ sectionContent, events }: EventsProps) {
                       <div className={styles.overlayActive} />
 
                       <div className={styles.content}>
-                        {/* Mobilde her kartta temel bilgiler acik; aciklama dokununca acilir */}
+                        {/* Mobilde akordiyon yok, her kartin yazisi hep acik */}
                         <div className={styles.activeContent}>
                           <span className={styles.tag}>{e.tag}</span>
                           <h3 className={styles.title}>{e.title}</h3>
-                          {e.description && (!isMobile || isActive) && (
+                          {e.description && (
                             <p className={styles.description}>{e.description}</p>
                           )}
                         </div>
                       </div>
-
-                      {/* Kartin dokunulabilir oldugunu belli eden gosterge */}
-                      {isMobile && (
-                        <span className={styles.chevron} aria-hidden="true">
-                          <FaChevronDown size={14} />
-                        </span>
-                      )}
                     </div>
                   );
                 })}

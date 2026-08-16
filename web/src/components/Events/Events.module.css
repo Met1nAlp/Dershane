@@ -141,22 +141,12 @@
   text-shadow: 0 1px 5px rgba(0,0,0,0.5);
 }
 
-/* Yalnizca mobilde render ediliyor; masaustu icin gizli */
-.chevron {
-  display: none;
-  transition: transform 0.25s ease;
-}
-
-.accordionItem.active .chevron {
-  transform: rotate(180deg);
-}
-
 /* ============================================================
-   MOBIL: Fotograf uzerine yazi yerlestirmek kacinilmaz olarak
-   kontrast savasi yaratiyordu (perde yuzu kapatiyor, gorsel
-   ince bir seride kirpiliyordu). Bunun yerine fotograf yanda
-   net gorunen bir avatara alindi; yazi beyaz kart uzerinde.
-   Sitenin mevcut dili: beyaz kart + turuncu pill + lacivert yazi.
+   MOBIL: Akordiyon yok — her etkinlik tam genislikte bir fotograf
+   karti. Bu bolumun butun amaci fotograflari gostermek; onceki
+   66px'lik avatar duzeni gorseli kartin %7'sine dusurup bolumu
+   bir ayarlar listesine cevirmisti. Artik masaustundeki "acik
+   kart" gorunumunun aynisi, alt alta diziliyor.
    ============================================================ */
 @media (max-width: 900px) {
   .sectionInner {
@@ -167,117 +157,57 @@
   .accordionRow.compact {
     flex-direction: column;
     height: auto;
-    gap: 10px;
+    gap: 16px;
   }
 
   .accordionContainer {
-    gap: 10px;
+    gap: 16px;
   }
 
+  /* Hover/aktif kavrami yok: butun kartlar ayni gorunur */
   .accordionItem,
   .accordionItem.active {
     flex: none !important;
+    width: 100%;
     height: auto;
-    min-height: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    cursor: pointer;
-    contain: none;
-  }
-
-  .accordionItem.active {
-    border-color: rgba(249, 115, 22, 0.35);
+    aspect-ratio: 4 / 3;
+    display: block;
+    cursor: default;
     box-shadow: var(--shadow-md);
   }
 
-  /* Arka plan serit degil, net gorunen avatar */
-  .bgImage {
-    position: relative;
-    inset: auto;
-    width: 66px;
-    height: 66px;
-    flex-shrink: 0;
-    border-radius: 14px;
-    background-position: center;
-    transition: none;
+  /* Karartma alt yarida yogunlasir: fotografin ust kismi net kalirken
+     yazinin oldugu bolge acik renkli fotograflarda da okunakli olsun. */
+  .overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(27,58,92,0) 22%,
+      rgba(27,58,92,0.55) 55%,
+      rgba(27,58,92,0.92) 100%
+    );
   }
 
-  /* Perde artik gereksiz: yazi fotografin uzerinde degil */
-  .overlay,
   .overlayActive {
     display: none;
   }
 
   .content {
-    position: relative;
-    inset: auto;
-    flex: 1;
-    min-width: 0;
-    min-height: 66px;
-    padding: 0;
-    justify-content: center;
+    padding: 20px;
   }
 
-  /* Mobilde her kartin yazisi hep acik */
   .activeContent,
   .accordionItem.active .activeContent {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
     max-width: 100%;
-    color: var(--text-primary);
-    pointer-events: none;
     opacity: 1;
     transition: none;
   }
 
-  /* Sitenin turuncu badge dili */
-  .tag {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--accent);
-    background: rgba(249, 115, 22, 0.1);
-    border: 1px solid rgba(249, 115, 22, 0.22);
-    backdrop-filter: none;
-    padding: 3px 10px;
-  }
-
-  /* Beyaz kart uzerinde koyu lacivert; golgeye gerek yok */
   .title {
-    color: var(--primary);
-    font-size: 1.02rem;
-    line-height: 1.25;
-    text-shadow: none;
+    font-size: 1.35rem;
   }
 
   .description {
-    align-self: stretch;
     font-size: 0.9rem;
-    line-height: 1.5;
-    color: var(--text-secondary);
-    text-shadow: none;
-    margin-top: 8px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-  }
-
-  .chevron {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    margin-top: 19px;
-    border-radius: 50%;
-    color: var(--accent);
-    background: rgba(249, 115, 22, 0.09);
+    margin-top: 4px;
   }
 }
