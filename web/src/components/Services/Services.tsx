@@ -13,11 +13,12 @@ import {
   FaCompass, FaSignsPost, FaCommentDots,
   FaGraduationCap,
 } from "react-icons/fa6";
-import type { ServiceItem } from "@prisma/client";
+import type { ServiceItem, ServicesSectionContent } from "@prisma/client";
 import { getIcon } from "@/lib/icons";
 import styles from "./Services.module.css";
 
 interface ServicesProps {
+  sectionContent: ServicesSectionContent;
   services: ServiceItem[];
 }
 
@@ -135,7 +136,7 @@ function SubjectBackdrop({ category }: { category: Category }) {
   );
 }
 
-export default function Services({ services }: ServicesProps) {
+export default function Services({ sectionContent, services }: ServicesProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const [xRange, setXRange] = useState([0, 0]);
@@ -197,11 +198,11 @@ export default function Services({ services }: ServicesProps) {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className="badge">Ne Sunuyoruz</span>
-              <h2 className="section-title">Hizmetlerimiz</h2>
+              <span className="badge">{sectionContent.badge}</span>
+              <h2 className="section-title">{sectionContent.title}</h2>
               <div className="divider" style={{ marginLeft: 0 }} />
               <p className="section-subtitle" style={{ marginTop: "16px", maxWidth: "500px", marginInline: 0 }}>
-                LGS&apos;den TYT/AYT&apos;ye, bireysel etütten grup derslerine kadar her ihtiyaca özel eğitim çözümleri sunuyoruz.
+                {sectionContent.description}
               </p>
             </motion.div>
           </div>

@@ -1,22 +1,17 @@
 import { FaGraduationCap } from "react-icons/fa6";
-import type { SiteSettings, SocialLink } from "@prisma/client";
+import type { SiteSettings, SocialLink, NavLink } from "@prisma/client";
 import { getIcon } from "@/lib/icons";
 import styles from "./Footer.module.css";
 
 interface FooterProps {
   siteSettings: SiteSettings;
   socialLinks: SocialLink[];
+  navLinks: NavLink[];
+  copyrightSuffix: string;
+  creditLine: string;
 }
 
-const links = [
-  { label: "Hakkımızda", href: "#hakkimizda" },
-  { label: "Hizmetler", href: "#hizmetler" },
-  { label: "Kadromuz", href: "#kadromuz" },
-  { label: "Başarılar", href: "#basarilar" },
-  { label: "İletişim", href: "#iletisim" },
-];
-
-export default function Footer({ siteSettings, socialLinks }: FooterProps) {
+export default function Footer({ siteSettings, socialLinks, navLinks, copyrightSuffix, creditLine }: FooterProps) {
   return (
     <footer className={styles.footer}>
       <div className="container">
@@ -32,8 +27,8 @@ export default function Footer({ siteSettings, socialLinks }: FooterProps) {
           </div>
 
           <nav className={styles.links}>
-            {links.map((l) => (
-              <a key={l.href} href={l.href} className={styles.footerLink}>
+            {navLinks.map((l) => (
+              <a key={l.id} href={l.href} className={styles.footerLink}>
                 {l.label}
               </a>
             ))}
@@ -52,8 +47,8 @@ export default function Footer({ siteSettings, socialLinks }: FooterProps) {
         </div>
 
         <div className={styles.bottom}>
-          <span>© {new Date().getFullYear()} {siteSettings.brandName}. Tüm hakları saklıdır.</span>
-          <span>Dershane öğrencisi tarafından sevgiyle yapıldı - Metin KAYAALP</span>
+          <span>© {new Date().getFullYear()} {siteSettings.brandName}. {copyrightSuffix}</span>
+          <span>{creditLine}</span>
         </div>
       </div>
     </footer>

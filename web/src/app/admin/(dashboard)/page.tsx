@@ -3,14 +3,16 @@ import { prisma } from "@/lib/prisma";
 import styles from "../admin-ui.module.css";
 
 const SECTIONS = [
+  { href: "/admin/navbar", label: "Navbar", desc: "Menü linkleri ve \"Kayıt Ol\" butonu" },
   { href: "/admin/hero", label: "Hero", desc: "Ana başlık, alt metin, butonlar" },
   { href: "/admin/about", label: "Hakkımızda", desc: "Tanıtım metni ve öne çıkan başlıklar" },
-  { href: "/admin/services", label: "Hizmetler", desc: "Sunulan hizmet kartları" },
-  { href: "/admin/team", label: "Kadromuz", desc: "Öğretmen kartları ve fotoğrafları" },
-  { href: "/admin/events", label: "Etkinlikler", desc: "Etkinlik fotoğrafları ve başlıkları" },
-  { href: "/admin/stats", label: "İstatistikler", desc: "Sayaçlar ve başarı bölümü metni" },
-  { href: "/admin/contact", label: "İletişim", desc: "İletişim bilgileri ve gelen mesajlar" },
-  { href: "/admin/settings", label: "Ayarlar", desc: "Marka, sosyal linkler, admin şifresi" },
+  { href: "/admin/services", label: "Hizmetler", desc: "Bölüm başlığı ve hizmet kartları" },
+  { href: "/admin/deneme", label: "Deneme ve Soru Çözümü", desc: "Bölüm başlığı ve kart içerikleri" },
+  { href: "/admin/events", label: "Etkinlikler", desc: "Bölüm başlığı, etkinlik fotoğrafları ve başlıkları" },
+  { href: "/admin/basarilar", label: "Başarılar", desc: "Sayaçlar ve bölüm metni" },
+  { href: "/admin/contact", label: "İletişim", desc: "Bölüm ve form metinleri, iletişim bilgileri, gelen mesajlar" },
+  { href: "/admin/footer", label: "Footer", desc: "Telif/kredi metni ve sosyal medya linkleri" },
+  { href: "/admin/settings", label: "Ayarlar", desc: "Marka adı/slogan, admin şifresi" },
 ];
 
 export default async function AdminHomePage() {

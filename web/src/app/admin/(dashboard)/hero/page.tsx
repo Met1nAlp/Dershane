@@ -11,7 +11,7 @@ export default async function AdminHeroPage() {
       <h1 className={styles.pageTitle}>Hero</h1>
       <p className={styles.pageDesc}>
         Sitenin en üstündeki ana bölüm. Sayaçlar (2.400+, 150+, 18 gibi) için{" "}
-        <Link href="/admin/stats" style={{ color: "var(--accent)" }}>İstatistikler</Link> sayfasına bakın.
+        <Link href="/admin/basarilar" style={{ color: "var(--accent)" }}>Başarılar</Link> sayfasına bakın.
       </p>
 
       <form action={updateHeroAction} className={`${styles.card} ${styles.form}`}>

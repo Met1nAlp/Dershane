@@ -21,34 +21,6 @@ export async function updateSiteSettingsAction(formData: FormData) {
   revalidatePath("/admin/settings");
 }
 
-export async function saveSocialLinkAction(formData: FormData) {
-  await requireAdmin();
-
-  const idRaw = formData.get("id");
-  const data = {
-    order: Number(formData.get("order") ?? 0),
-    platform: String(formData.get("platform") ?? ""),
-    url: String(formData.get("url") ?? ""),
-  };
-
-  if (idRaw) {
-    await prisma.socialLink.update({ where: { id: Number(idRaw) }, data });
-  } else {
-    await prisma.socialLink.create({ data });
-  }
-
-  revalidatePath("/");
-  revalidatePath("/admin/settings");
-}
-
-export async function deleteSocialLinkAction(formData: FormData) {
-  await requireAdmin();
-  const id = Number(formData.get("id"));
-  await prisma.socialLink.delete({ where: { id } });
-  revalidatePath("/");
-  revalidatePath("/admin/settings");
-}
-
 export async function changeAdminCredentialsAction(formData: FormData) {
   await requireAdmin();
 

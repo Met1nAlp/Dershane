@@ -3,22 +3,16 @@
 import { useState, useEffect } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { FaGraduationCap } from "react-icons/fa6";
+import type { NavLink } from "@prisma/client";
 import styles from "./Navbar.module.css";
-
-const navLinks = [
-  { label: "Hakkımızda", href: "#hakkimizda" },
-  { label: "Hizmetler", href: "#hizmetler" },
-  { label: "Kadromuz", href: "#kadromuz" },
-  { label: "Etkinlikler", href: "#etkinlikler" },
-  { label: "Başarılar", href: "#basarilar" },
-  { label: "İletişim", href: "#iletisim" },
-];
 
 interface NavbarProps {
   brandName: string;
+  navLinks: NavLink[];
+  ctaLabel: string;
 }
 
-export default function Navbar({ brandName }: NavbarProps) {
+export default function Navbar({ brandName, navLinks, ctaLabel }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeHref, setActiveHref] = useState("");
@@ -55,12 +49,19 @@ export default function Navbar({ brandName }: NavbarProps) {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [navLinks]);
 
   const handleNavClick = (href: string) => {
     setMenuOpen(false);
     const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (!el) return;
+    // Etkinlikler masaustunde viewport'a yakin yukseklikte, ustten hizalamak
+    // altta bosluk birakiyordu; bunun yerine altini hizala. Mobilde bolum
+    // dikey bir liste olarak coook daha uzun oldugu icin bu tersine doner
+    // (baslik ve ilk kartlar tamamen gizlenir) — sadece masaustunde uygula.
+    const isMobile = window.matchMedia("(max-width: 900px)").matches;
+    const block = href === "#etkinlikler" && !isMobile ? "end" : "start";
+    el.scrollIntoView({ behavior: "smooth", block });
   };
 
   return (
@@ -78,7 +79,7 @@ export default function Navbar({ brandName }: NavbarProps) {
         <nav className={styles.nav}>
           {navLinks.map((link) => (
             <button
-              key={link.href}
+              key={link.id}
               className={`${styles.navLink} ${activeHref === link.href ? styles.navLinkActive : ""}`}
               onClick={() => handleNavClick(link.href)}
             >
@@ -89,7 +90,7 @@ export default function Navbar({ brandName }: NavbarProps) {
 
         <div className={styles.cta}>
           <button className="btn btn-primary" onClick={() => handleNavClick("#iletisim")}>
-            Kayıt Ol
+            {ctaLabel}
           </button>
         </div>
 
@@ -106,7 +107,7 @@ export default function Navbar({ brandName }: NavbarProps) {
         <div className={styles.mobileMenu}>
           {navLinks.map((link) => (
             <button
-              key={link.href}
+              key={link.id}
               className={`${styles.mobileNavLink} ${activeHref === link.href ? styles.mobileNavLinkActive : ""}`}
               onClick={() => handleNavClick(link.href)}
             >
@@ -117,7 +118,7 @@ export default function Navbar({ brandName }: NavbarProps) {
             className={`btn btn-primary ${styles.mobileCta}`}
             onClick={() => handleNavClick("#iletisim")}
           >
-            Kayıt Ol
+            {ctaLabel}
           </button>
         </div>
       )}

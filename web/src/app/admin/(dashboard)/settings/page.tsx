@@ -1,14 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { ICON_KEYS } from "@/lib/icons";
 import styles from "../../admin-ui.module.css";
-import {
-  updateSiteSettingsAction,
-  saveSocialLinkAction,
-  deleteSocialLinkAction,
-  changeAdminCredentialsAction,
-} from "./actions";
-
-const SOCIAL_ICON_KEYS = ["instagram", "whatsapp", "twitter", "youtube", "facebook"];
+import { updateSiteSettingsAction, changeAdminCredentialsAction } from "./actions";
 
 export default async function AdminSettingsPage({
   searchParams,
@@ -16,16 +8,15 @@ export default async function AdminSettingsPage({
   searchParams: Promise<{ credError?: string; credSuccess?: string }>;
 }) {
   const params = await searchParams;
-  const [siteSettings, socialLinks, adminUser] = await Promise.all([
+  const [siteSettings, adminUser] = await Promise.all([
     prisma.siteSettings.findUniqueOrThrow({ where: { id: 1 } }),
-    prisma.socialLink.findMany({ orderBy: { order: "asc" } }),
     prisma.adminUser.findUniqueOrThrow({ where: { id: 1 } }),
   ]);
 
   return (
     <div>
       <h1 className={styles.pageTitle}>Ayarlar</h1>
-      <p className={styles.pageDesc}>Marka bilgisi, sosyal medya linkleri ve admin giriş bilgileri.</p>
+      <p className={styles.pageDesc}>Marka bilgisi ve admin giriş bilgileri.</p>
 
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Marka</h2>
@@ -44,61 +35,6 @@ export default async function AdminSettingsPage({
             <button type="submit" className={styles.saveBtn}>Kaydet</button>
           </div>
         </form>
-      </div>
-
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Sosyal Medya Linkleri ({socialLinks.length})</h2>
-        <div className={styles.list}>
-          {socialLinks.map((s) => (
-            <form key={s.id} action={saveSocialLinkAction} className={styles.listItem}>
-              <input type="hidden" name="id" defaultValue={s.id} />
-              <div className={styles.listItemGrid}>
-                <div className={styles.field}>
-                  <label className={styles.label}>Sıra</label>
-                  <input className={`${styles.input} ${styles.orderField}`} type="number" name="order" defaultValue={s.order} />
-                </div>
-                <div className={styles.field}>
-                  <label className={styles.label}>Platform</label>
-                  <select className={styles.select} name="platform" defaultValue={s.platform}>
-                    {SOCIAL_ICON_KEYS.map((k) => <option key={k} value={k}>{k}</option>)}
-                  </select>
-                </div>
-                <div className={styles.field}>
-                  <label className={styles.label}>URL</label>
-                  <input className={styles.input} name="url" defaultValue={s.url} required />
-                </div>
-              </div>
-              <div className={styles.itemActions}>
-                <button type="submit" formAction={deleteSocialLinkAction} className={styles.deleteBtn}>Sil</button>
-                <button type="submit" className={styles.saveBtn}>Kaydet</button>
-              </div>
-            </form>
-          ))}
-        </div>
-
-        <div style={{ marginTop: 16 }}>
-          <form action={saveSocialLinkAction} className={`${styles.card} ${styles.form}`}>
-            <div className={styles.row}>
-              <div className={styles.field}>
-                <label className={styles.label}>Sıra</label>
-                <input className={styles.input} type="number" name="order" defaultValue={socialLinks.length} />
-              </div>
-              <div className={styles.field}>
-                <label className={styles.label}>Platform</label>
-                <select className={styles.select} name="platform" defaultValue={SOCIAL_ICON_KEYS[0]}>
-                  {SOCIAL_ICON_KEYS.map((k) => <option key={k} value={k}>{k}</option>)}
-                </select>
-              </div>
-            </div>
-            <div className={styles.field}>
-              <label className={styles.label}>URL</label>
-              <input className={styles.input} name="url" placeholder="https://instagram.com/..." required />
-            </div>
-            <div className={styles.actions}>
-              <button type="submit" className={styles.saveBtn}>Ekle</button>
-            </div>
-          </form>
-        </div>
       </div>
 
       <div className={styles.section}>

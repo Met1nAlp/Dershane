@@ -3,25 +3,26 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaLocationDot, FaPhone, FaEnvelope, FaClock, FaPaperPlane, FaCircleCheck } from "react-icons/fa6";
-import type { ContactInfo } from "@prisma/client";
+import type { ContactInfo, ContactSectionContent } from "@prisma/client";
 import { submitContactFormAction } from "@/lib/actions/contact";
 import styles from "./Contact.module.css";
 
 interface ContactProps {
+  sectionContent: ContactSectionContent;
   contact: ContactInfo;
 }
 
-export default function Contact({ contact }: ContactProps) {
+export default function Contact({ sectionContent, contact }: ContactProps) {
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", phone: "", email: "", note: "" });
 
   const info = [
-    { icon: FaLocationDot, label: "Adres", value: contact.address },
-    { icon: FaPhone, label: "Telefon", value: contact.phone },
-    { icon: FaEnvelope, label: "E-posta", value: contact.email },
-    { icon: FaClock, label: "Çalışma Saatleri", value: contact.workingHours },
+    { icon: FaLocationDot, label: sectionContent.infoAddressLabel, value: contact.address },
+    { icon: FaPhone, label: sectionContent.infoPhoneLabel, value: contact.phone },
+    { icon: FaEnvelope, label: sectionContent.infoEmailLabel, value: contact.email },
+    { icon: FaClock, label: sectionContent.infoHoursLabel, value: contact.workingHours },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,11 +37,11 @@ export default function Contact({ contact }: ContactProps) {
         setSent(true);
         setForm({ name: "", phone: "", email: "", note: "" });
       } else {
-        setError(result.error ?? "Bir şeyler ters gitti, lütfen tekrar deneyin.");
+        setError(result.error ?? sectionContent.errorGeneric);
       }
     } catch {
       setSubmitting(false);
-      setError("Beklenmeyen bir hata oluştu.");
+      setError(sectionContent.errorUnexpected);
     }
   };
 
@@ -54,11 +55,11 @@ export default function Contact({ contact }: ContactProps) {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="badge">Bize Ulaşın</span>
-          <h2 className="section-title">İletişim & Kayıt</h2>
+          <span className="badge">{sectionContent.badge}</span>
+          <h2 className="section-title">{sectionContent.title}</h2>
           <div className="divider" />
           <p className="section-subtitle" style={{ marginTop: "16px" }}>
-            Kayıt, bilgi almak veya ücretsiz deneme dersi için formu doldurun, sizi arayalım.
+            {sectionContent.description}
           </p>
         </motion.div>
 
@@ -94,7 +95,7 @@ export default function Contact({ contact }: ContactProps) {
             ) : (
               <div className={styles.mapPlaceholder}>
                 <FaLocationDot size={28} color="var(--accent)" />
-                <span>Harita yakında eklenecek</span>
+                <span>{sectionContent.mapPlaceholderText}</span>
               </div>
             )}
           </motion.div>
@@ -109,34 +110,34 @@ export default function Contact({ contact }: ContactProps) {
             {sent ? (
               <div className={styles.successBox}>
                 <FaCircleCheck size={48} color="var(--accent)" />
-                <h3>Mesajınız İletildi!</h3>
-                <p>En kısa sürede sizi arayacağız. Tercih ettiğiniz için teşekkürler.</p>
-                <button className="btn btn-outline" onClick={() => setSent(false)}>Yeni Mesaj Gönder</button>
+                <h3>{sectionContent.successTitle}</h3>
+                <p>{sectionContent.successMessage}</p>
+                <button className="btn btn-outline" onClick={() => setSent(false)}>{sectionContent.successButtonLabel}</button>
               </div>
             ) : (
               <form className={styles.form} onSubmit={handleSubmit}>
-                <h3 className={styles.formTitle}>Ücretsiz Ön Görüşme Talebi</h3>
+                <h3 className={styles.formTitle}>{sectionContent.formTitle}</h3>
                 <div className={styles.formRow}>
                   <div className={styles.field}>
-                    <label className={styles.label}>Ad Soyad</label>
-                    <input className={styles.input} type="text" placeholder="Adınızı girin" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                    <label className={styles.label}>{sectionContent.formNameLabel}</label>
+                    <input className={styles.input} type="text" placeholder={sectionContent.formNamePlaceholder} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
                   </div>
                   <div className={styles.field}>
-                    <label className={styles.label}>Telefon</label>
-                    <input className={styles.input} type="tel" placeholder="0555 000 00 00" required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+                    <label className={styles.label}>{sectionContent.formPhoneLabel}</label>
+                    <input className={styles.input} type="tel" placeholder={sectionContent.formPhonePlaceholder} required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
                   </div>
                 </div>
                 <div className={styles.field}>
-                  <label className={styles.label}>E-posta</label>
-                  <input className={styles.input} type="email" placeholder="ornek@mail.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                  <label className={styles.label}>{sectionContent.formEmailLabel}</label>
+                  <input className={styles.input} type="email" placeholder={sectionContent.formEmailPlaceholder} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
                 </div>
                 <div className={styles.field}>
-                  <label className={styles.label}>Not / Soru</label>
-                  <textarea className={`${styles.input} ${styles.textarea}`} placeholder="Hangi sınav için hazırlanıyorsunuz?" rows={4} value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} />
+                  <label className={styles.label}>{sectionContent.formNoteLabel}</label>
+                  <textarea className={`${styles.input} ${styles.textarea}`} placeholder={sectionContent.formNotePlaceholder} rows={4} value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} />
                 </div>
                 {error && <p style={{ color: "#ef4444", fontSize: "0.85rem", margin: 0 }}>{error}</p>}
                 <button type="submit" className={`btn btn-primary ${styles.submitBtn}`} disabled={submitting}>
-                  <FaPaperPlane size={16} /> {submitting ? "Gönderiliyor..." : "Gönder"}
+                  <FaPaperPlane size={16} /> {submitting ? sectionContent.submitLoadingLabel : sectionContent.submitLabel}
                 </button>
               </form>
             )}

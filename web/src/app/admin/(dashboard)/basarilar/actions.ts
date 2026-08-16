@@ -18,7 +18,7 @@ export async function updateStatsSectionAction(formData: FormData) {
   });
 
   revalidatePath("/");
-  revalidatePath("/admin/stats");
+  revalidatePath("/admin/basarilar");
 }
 
 export async function saveStatItemAction(formData: FormData) {
@@ -48,7 +48,7 @@ export async function saveStatItemAction(formData: FormData) {
   }
 
   revalidatePath("/");
-  revalidatePath("/admin/stats");
+  revalidatePath("/admin/basarilar");
 }
 
 export async function deleteStatItemAction(formData: FormData) {
@@ -56,5 +56,5 @@ export async function deleteStatItemAction(formData: FormData) {
   const id = Number(formData.get("id"));
   await prisma.statItem.delete({ where: { id } });
   revalidatePath("/");
-  revalidatePath("/admin/stats");
+  revalidatePath("/admin/basarilar");
 }

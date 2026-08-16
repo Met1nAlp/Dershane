@@ -136,6 +136,18 @@ async function main() {
     ],
   });
 
+  await prisma.servicesSectionContent.upsert({
+    where: { id: 1 },
+    create: {
+      id: 1,
+      badge: "Ne Sunuyoruz",
+      title: "Hizmetlerimiz",
+      description:
+        "LGS'den TYT/AYT'ye, bireysel etütten grup derslerine kadar her ihtiyaca özel eğitim çözümleri sunuyoruz.",
+    },
+    update: {},
+  });
+
   await prisma.serviceItem.deleteMany();
   await prisma.serviceItem.createMany({
     data: [
@@ -151,28 +163,84 @@ async function main() {
     ],
   });
 
-  await prisma.teamMember.deleteMany();
-  await prisma.teamMember.createMany({
-    data: [
-      { order: 0, name: "Ahmet Yılmaz", branch: "Matematik & Geometri", experienceLabel: "14 yıl deneyim", detail: "YKS 2024'te 8 öğrencisi ilk 500'e girdi.", colorHex: "#3b82f6", imageUrl: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-      { order: 1, name: "Fatma Kaya", branch: "Türkçe & Edebiyat", experienceLabel: "11 yıl deneyim", detail: "Sözel alan uzmanı.", colorHex: "#8b5cf6", imageUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-      { order: 2, name: "Murat Demir", branch: "Fizik & Kimya", experienceLabel: "9 yıl deneyim", detail: "Deney odaklı öğretim.", colorHex: "#10b981", imageUrl: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-      { order: 3, name: "Zeynep Arslan", branch: "Biyoloji", experienceLabel: "7 yıl deneyim", detail: "TYT Fen dereceleri uzmanı.", colorHex: "#f59e0b", imageUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-      { order: 4, name: "Can Çelik", branch: "Tarih & Coğrafya", experienceLabel: "10 yıl deneyim", detail: "Sosyal bilimler şampiyonu.", colorHex: "#ef4444", imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-      { order: 5, name: "Selin Öztürk", branch: "İngilizce & YDT", experienceLabel: "8 yıl deneyim", detail: "YDT 100 tam puan koçu.", colorHex: "#06b6d4", imageUrl: "https://images.unsplash.com/photo-1598550874175-4d0ef43ce902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-    ],
+  await prisma.practiceSectionContent.upsert({
+    where: { id: 1 },
+    create: {
+      id: 1,
+      badge: "Sınav Hazırlık",
+      title: "Deneme ve Soru Çözümü",
+      description: "Düzenli deneme sınavları ve birebir soru çözümü ile öğrencilerimizi sınava en iyi şekilde hazırlıyoruz.",
+    },
+    update: {},
+  });
+
+  const practiceItemCount = await prisma.practiceItem.count();
+  if (practiceItemCount === 0) {
+    await prisma.practiceItem.createMany({
+      data: [
+        { order: 0, title: "TYT Haftalık Deneme", tag: "TYT", description: "Her hafta gerçek sınav formatında TYT denemesi ve detaylı analiz.", imageUrl: "https://images.unsplash.com/photo-1596496181848-3091d4878b24?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+        { order: 1, title: "AYT Branş Denemesi", tag: "AYT", description: "Alan derslerine özel branş denemeleriyle konu eksiklerini tespit ediyoruz.", imageUrl: "https://images.unsplash.com/photo-1509228468518-180dd4864904?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+        { order: 2, title: "LGS Deneme Sınavı", tag: "LGS", description: "Gerçek sınav sistemine uygun LGS denemeleriyle sınav tecrübesi kazandırıyoruz.", imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+        { order: 3, title: "Soru Çözüm Kampı", tag: "Kamp", description: "Yoğunlaştırılmış hafta sonu kamplarında yüzlerce soru çözerek pratik kazanıyoruz.", imageUrl: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+        { order: 4, title: "Birebir Soru Analizi", tag: "Analiz", description: "Her öğrencinin yanlış yaptığı soruları birebir gözden geçiriyoruz.", imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+      ],
+    });
+  }
+
+  await prisma.eventsSectionContent.upsert({
+    where: { id: 1 },
+    create: {
+      id: 1,
+      badge: "Sosyal Hayat",
+      title: "Sınıfın Ötesinde Anılar",
+      description:
+        "Piknikten futbol turnuvasına, bilim şenliğinden mezuniyet gecesine kadar öğrencilerimizle birlikte yaşadığımız anlardan kareler.",
+    },
+    update: {},
   });
 
   await prisma.eventItem.deleteMany();
   await prisma.eventItem.createMany({
     data: [
-      { order: 0, title: "Bahar Pikniği", tag: "Piknik", imageUrl: "https://images.unsplash.com/photo-1526976668912-1a811878dd37?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" },
-      { order: 1, title: "Dostluk Turnuvası", tag: "Futbol", imageUrl: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-      { order: 2, title: "Mezuniyet Gecesi", tag: "Mezuniyet", imageUrl: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-      { order: 3, title: "Bilim Şenliği", tag: "Bilim", imageUrl: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-      { order: 4, title: "Kitap Kulübü Buluşması", tag: "Kulüp", imageUrl: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" },
-      { order: 5, title: "Yılsonu Konseri", tag: "Konser", imageUrl: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+      { order: 0, title: "Bahar Pikniği", tag: "Piknik", description: "Ders yoğunluğuna kısa bir mola: doğada geçirdiğimiz keyifli bir gün.", imageUrl: "https://images.unsplash.com/photo-1526976668912-1a811878dd37?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" },
+      { order: 1, title: "Dostluk Turnuvası", tag: "Futbol", description: "Sınıflar arası futbol turnuvamızda rekabet sahada, dostluk tribünde.", imageUrl: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+      { order: 2, title: "Mezuniyet Gecesi", tag: "Mezuniyet", description: "Yılların emeğini birlikte kutladığımız, unutulmaz bir veda gecesi.", imageUrl: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+      { order: 3, title: "Bilim Şenliği", tag: "Bilim", description: "Öğrencilerimizin hazırladığı deney ve projelerle dolu bir bilim günü.", imageUrl: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+      { order: 4, title: "Kitap Kulübü Buluşması", tag: "Kulüp", description: "Her ay bir kitap, her buluşmada yeni bir bakış açısı.", imageUrl: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" },
+      { order: 5, title: "Yılsonu Konseri", tag: "Konser", description: "Müzik kulübümüzün sahne aldığı, yılı kapatan coşkulu konser.", imageUrl: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
     ],
+  });
+
+  await prisma.contactSectionContent.upsert({
+    where: { id: 1 },
+    create: {
+      id: 1,
+      badge: "Bize Ulaşın",
+      title: "İletişim & Kayıt",
+      description: "Kayıt, bilgi almak veya ücretsiz deneme dersi için formu doldurun, sizi arayalım.",
+      infoAddressLabel: "Adres",
+      infoPhoneLabel: "Telefon",
+      infoEmailLabel: "E-posta",
+      infoHoursLabel: "Çalışma Saatleri",
+      mapPlaceholderText: "Harita yakında eklenecek",
+      formTitle: "Ücretsiz Ön Görüşme Talebi",
+      formNameLabel: "Ad Soyad",
+      formNamePlaceholder: "Adınızı girin",
+      formPhoneLabel: "Telefon",
+      formPhonePlaceholder: "0555 000 00 00",
+      formEmailLabel: "E-posta",
+      formEmailPlaceholder: "ornek@mail.com",
+      formNoteLabel: "Not / Soru",
+      formNotePlaceholder: "Hangi sınav için hazırlanıyorsunuz?",
+      submitLabel: "Gönder",
+      submitLoadingLabel: "Gönderiliyor...",
+      successTitle: "Mesajınız İletildi!",
+      successMessage: "En kısa sürede sizi arayacağız. Tercih ettiğiniz için teşekkürler.",
+      successButtonLabel: "Yeni Mesaj Gönder",
+      errorGeneric: "Bir şeyler ters gitti, lütfen tekrar deneyin.",
+      errorUnexpected: "Beklenmeyen bir hata oluştu.",
+    },
+    update: {},
   });
 
   await prisma.contactInfo.upsert({
@@ -206,6 +274,38 @@ async function main() {
       { order: 3, platform: "facebook", url: "#" },
     ],
   });
+
+  await prisma.navbarContent.upsert({
+    where: { id: 1 },
+    create: { id: 1, ctaLabel: "Kayıt Ol" },
+    update: {},
+  });
+
+  await prisma.footerContent.upsert({
+    where: { id: 1 },
+    create: {
+      id: 1,
+      copyrightSuffix: "Tüm hakları saklıdır.",
+      creditLine: "Dershane öğrencisi tarafından sevgiyle yapıldı - Metin KAYAALP",
+    },
+    update: {},
+  });
+
+  // Navbar'ın tam 6 kalemlik listesi kaynak alınıyor; eski Footer listesinde
+  // "Etkinlikler" eksikti, artik ikisi ayni NavLink tablosunu kullaniyor.
+  const navLinkCount = await prisma.navLink.count();
+  if (navLinkCount === 0) {
+    await prisma.navLink.createMany({
+      data: [
+        { order: 0, label: "Hakkımızda", href: "#hakkimizda" },
+        { order: 1, label: "Hizmetler", href: "#hizmetler" },
+        { order: 2, label: "Deneme & Soru Çözümü", href: "#deneme" },
+        { order: 3, label: "Etkinlikler", href: "#etkinlikler" },
+        { order: 4, label: "Başarılar", href: "#basarilar" },
+        { order: 5, label: "İletişim", href: "#iletisim" },
+      ],
+    });
+  }
 
   console.log("Seed tamamlandı.");
 }

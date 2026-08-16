@@ -3,7 +3,7 @@ import { ICON_KEYS } from "@/lib/icons";
 import styles from "../../admin-ui.module.css";
 import { updateStatsSectionAction, saveStatItemAction, deleteStatItemAction } from "./actions";
 
-export default async function AdminStatsPage() {
+export default async function AdminBasarilarPage() {
   const [statsSection, items] = await Promise.all([
     prisma.statsSectionContent.findUniqueOrThrow({ where: { id: 1 } }),
     prisma.statItem.findMany({ orderBy: { order: "asc" } }),
@@ -11,10 +11,10 @@ export default async function AdminStatsPage() {
 
   return (
     <div>
-      <h1 className={styles.pageTitle}>İstatistikler</h1>
+      <h1 className={styles.pageTitle}>Başarılar</h1>
       <p className={styles.pageDesc}>
-        Buradaki sayaçlar hem Hero bölümündeki 3 kutuda hem de aşağıdaki İstatistikler bölümünde
-        kullanılır — hangisinde görüneceğini "Hero'da göster" / "İstatistiklerde göster" kutularıyla seçin.
+        Buradaki sayaçlar hem Hero bölümündeki 3 kutuda hem de aşağıdaki Başarılar bölümünde
+        kullanılır — hangisinde görüneceğini &quot;Hero&apos;da göster&quot; / &quot;Başarılar&apos;da göster&quot; kutularıyla seçin.
       </p>
 
       <div className={styles.section}>
@@ -80,7 +80,7 @@ export default async function AdminStatsPage() {
                   <input className={styles.input} name="label" defaultValue={s.label} required />
                 </div>
                 <div className={styles.field}>
-                  <label className={styles.label}>Açıklama (sadece İstatistikler bölümünde görünür)</label>
+                  <label className={styles.label}>Açıklama (sadece Başarılar bölümünde görünür)</label>
                   <textarea className={`${styles.input} ${styles.textarea}`} name="description" defaultValue={s.description ?? ""} />
                 </div>
                 <div className={styles.field} style={{ flexDirection: "row", gap: 20 }}>
@@ -88,7 +88,7 @@ export default async function AdminStatsPage() {
                     <input type="checkbox" name="showInHero" defaultChecked={s.showInHero} /> Hero&apos;da göster
                   </label>
                   <label className={styles.checkboxRow}>
-                    <input type="checkbox" name="showInStats" defaultChecked={s.showInStats} /> İstatistiklerde göster
+                    <input type="checkbox" name="showInStats" defaultChecked={s.showInStats} /> Başarılar&apos;da göster
                   </label>
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default async function AdminStatsPage() {
               <input type="checkbox" name="showInHero" /> Hero&apos;da göster
             </label>
             <label className={styles.checkboxRow}>
-              <input type="checkbox" name="showInStats" defaultChecked /> İstatistiklerde göster
+              <input type="checkbox" name="showInStats" defaultChecked /> Başarılar&apos;da göster
             </label>
           </div>
           <div className={styles.actions}>

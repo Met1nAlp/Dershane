@@ -25,6 +25,13 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-full: 9999px;
+  --navbar-h: 86px;
+}
+
+/* Navbar `position: fixed`, icerigi ittirmez — anchor'a scroll edince bolum
+   ustu navbar'in arkasinda kalip kesiliyordu. Tum bolumler bu payi birakir. */
+section[id] {
+  scroll-margin-top: var(--navbar-h);
 }
 
 *, *::before, *::after {

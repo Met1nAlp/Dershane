@@ -1,17 +1,42 @@
 import { prisma } from "@/lib/prisma";
 import { ICON_KEYS } from "@/lib/icons";
 import styles from "../../admin-ui.module.css";
-import { saveServiceAction, deleteServiceAction } from "./actions";
+import { updateServicesSectionAction, saveServiceAction, deleteServiceAction } from "./actions";
 
 export default async function AdminServicesPage() {
-  const services = await prisma.serviceItem.findMany({ orderBy: { order: "asc" } });
+  const [sectionContent, services] = await Promise.all([
+    prisma.servicesSectionContent.findUniqueOrThrow({ where: { id: 1 } }),
+    prisma.serviceItem.findMany({ orderBy: { order: "asc" } }),
+  ]);
 
   return (
     <div>
       <h1 className={styles.pageTitle}>Hizmetler</h1>
-      <p className={styles.pageDesc}>Anasayfada yatay kayan hizmet kartları ({services.length} adet).</p>
+      <p className={styles.pageDesc}>Bölüm başlığı ve anasayfada yatay kayan hizmet kartları ({services.length} adet).</p>
 
       <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Bölüm Başlığı</h2>
+        <form action={updateServicesSectionAction} className={`${styles.card} ${styles.form}`}>
+          <div className={styles.field}>
+            <label className={styles.label}>Rozet Metni</label>
+            <input className={styles.input} name="badge" defaultValue={sectionContent.badge} required />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Başlık</label>
+            <input className={styles.input} name="title" defaultValue={sectionContent.title} required />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Açıklama</label>
+            <textarea className={`${styles.input} ${styles.textarea}`} name="description" defaultValue={sectionContent.description} required />
+          </div>
+          <div className={styles.actions}>
+            <button type="submit" className={styles.saveBtn}>Kaydet</button>
+          </div>
+        </form>
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Hizmet Kartları ({services.length})</h2>
         <div className={styles.list}>
           {services.map((s) => (
             <form key={s.id} action={saveServiceAction} className={styles.listItem}>

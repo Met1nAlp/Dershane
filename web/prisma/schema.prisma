@@ -73,6 +73,13 @@ model AboutPillar {
 }
 
 // ─── SERVICES ────────────────────────────────────────────────
+model ServicesSectionContent {
+  id          Int    @id @default(1)
+  badge       String
+  title       String
+  description String
+}
+
 model ServiceItem {
   id          Int    @id @default(autoincrement())
   order       Int    @default(0)
@@ -81,28 +88,70 @@ model ServiceItem {
   description String
 }
 
-// ─── TEAM ────────────────────────────────────────────────────
-model TeamMember {
-  id              Int    @id @default(autoincrement())
-  order           Int    @default(0)
-  name            String
-  branch          String
-  experienceLabel String
-  detail          String
-  colorHex        String
-  imageUrl        String
+// ─── PRACTICE (deneme ve soru cozumu) ───────────────────────
+model PracticeSectionContent {
+  id          Int    @id @default(1)
+  badge       String
+  title       String
+  description String
+}
+
+model PracticeItem {
+  id          Int    @id @default(autoincrement())
+  order       Int    @default(0)
+  title       String
+  tag         String
+  description String @default("")
+  imageUrl    String
 }
 
 // ─── EVENTS ──────────────────────────────────────────────────
+model EventsSectionContent {
+  id          Int    @id @default(1)
+  badge       String
+  title       String
+  description String
+}
+
 model EventItem {
-  id       Int    @id @default(autoincrement())
-  order    Int    @default(0)
-  title    String
-  tag      String
-  imageUrl String
+  id          Int    @id @default(autoincrement())
+  order       Int    @default(0)
+  title       String
+  tag         String
+  // Akordiyon karti acildiginda gorunur; mevcut satirlar bos baslar.
+  description String @default("")
+  imageUrl    String
 }
 
 // ─── CONTACT ─────────────────────────────────────────────────
+model ContactSectionContent {
+  id                   Int    @id @default(1)
+  badge                String
+  title                String
+  description          String
+  infoAddressLabel     String
+  infoPhoneLabel       String
+  infoEmailLabel       String
+  infoHoursLabel       String
+  mapPlaceholderText   String
+  formTitle            String
+  formNameLabel        String
+  formNamePlaceholder  String
+  formPhoneLabel       String
+  formPhonePlaceholder String
+  formEmailLabel       String
+  formEmailPlaceholder String
+  formNoteLabel        String
+  formNotePlaceholder  String
+  submitLabel          String
+  submitLoadingLabel   String
+  successTitle         String
+  successMessage       String
+  successButtonLabel   String
+  errorGeneric         String
+  errorUnexpected      String
+}
+
 model ContactInfo {
   id           Int     @id @default(1)
   address      String
@@ -122,7 +171,28 @@ model ContactMessage {
   read      Boolean  @default(false)
 }
 
-// ─── SITE SETTINGS / FOOTER ──────────────────────────────────
+// ─── NAVBAR / FOOTER ─────────────────────────────────────────
+// NavLink hem Navbar menusu hem Footer link listesi tarafindan
+// paylasilir — tek kaynak, ikisi arasinda tutarsizlik olmaz.
+model NavLink {
+  id    Int    @id @default(autoincrement())
+  order Int    @default(0)
+  label String
+  href  String
+}
+
+model NavbarContent {
+  id       Int    @id @default(1)
+  ctaLabel String
+}
+
+model FooterContent {
+  id              Int    @id @default(1)
+  copyrightSuffix String
+  creditLine      String
+}
+
+// ─── SITE SETTINGS ───────────────────────────────────────────
 model SiteSettings {
   id           Int    @id @default(1)
   brandName    String

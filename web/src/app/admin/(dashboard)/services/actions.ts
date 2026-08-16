@@ -4,6 +4,22 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+export async function updateServicesSectionAction(formData: FormData) {
+  await requireAdmin();
+
+  await prisma.servicesSectionContent.update({
+    where: { id: 1 },
+    data: {
+      badge: String(formData.get("badge") ?? ""),
+      title: String(formData.get("title") ?? ""),
+      description: String(formData.get("description") ?? ""),
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath("/admin/services");
+}
+
 export async function saveServiceAction(formData: FormData) {
   await requireAdmin();
 

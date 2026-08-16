@@ -4,10 +4,10 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export async function updateEventsSectionAction(formData: FormData) {
+export async function updatePracticeSectionAction(formData: FormData) {
   await requireAdmin();
 
-  await prisma.eventsSectionContent.update({
+  await prisma.practiceSectionContent.update({
     where: { id: 1 },
     data: {
       badge: String(formData.get("badge") ?? ""),
@@ -17,10 +17,10 @@ export async function updateEventsSectionAction(formData: FormData) {
   });
 
   revalidatePath("/");
-  revalidatePath("/admin/events");
+  revalidatePath("/admin/deneme");
 }
 
-export async function saveEventAction(formData: FormData) {
+export async function savePracticeItemAction(formData: FormData) {
   await requireAdmin();
 
   const idRaw = formData.get("id");
@@ -33,19 +33,19 @@ export async function saveEventAction(formData: FormData) {
   };
 
   if (idRaw) {
-    await prisma.eventItem.update({ where: { id: Number(idRaw) }, data });
+    await prisma.practiceItem.update({ where: { id: Number(idRaw) }, data });
   } else {
-    await prisma.eventItem.create({ data });
+    await prisma.practiceItem.create({ data });
   }
 
   revalidatePath("/");
-  revalidatePath("/admin/events");
+  revalidatePath("/admin/deneme");
 }
 
-export async function deleteEventAction(formData: FormData) {
+export async function deletePracticeItemAction(formData: FormData) {
   await requireAdmin();
   const id = Number(formData.get("id"));
-  await prisma.eventItem.delete({ where: { id } });
+  await prisma.practiceItem.delete({ where: { id } });
   revalidatePath("/");
-  revalidatePath("/admin/events");
+  revalidatePath("/admin/deneme");
 }
