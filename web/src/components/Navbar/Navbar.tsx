@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { HiMenu, HiX } from "react-icons/hi";
-import { FaGraduationCap } from "react-icons/fa6";
 import type { NavLink } from "@prisma/client";
 import styles from "./Navbar.module.css";
 
@@ -68,9 +68,14 @@ export default function Navbar({ brandName, navLinks, ctaLabel }: NavbarProps) {
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ""} ${menuOpen ? styles.menuOpen : ""}`}>
       <div className={`container ${styles.inner}`}>
         <a href="#" className={styles.logo} title={brandName} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-          <div className={styles.logoIcon}>
-            <FaGraduationCap size={20} color="#fff" />
-          </div>
+          <Image
+            className={styles.logoIcon}
+            src="/logo.png"
+            alt={brandName}
+            width={44}
+            height={44}
+            priority
+          />
           <span className={styles.logoText}>
             {firstWord} {restOfBrand && <span className={styles.logoAccent}>{restOfBrand}</span>}
           </span>

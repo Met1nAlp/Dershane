@@ -14,6 +14,21 @@ export const metadata: Metadata = {
     description:
       "Alanında uzman öğretmen kadrosu ve güçlü takip sistemiyle hedeflerine ulaş.",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Madalyon Akıl Treni Kurs Merkezi",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Madalyon Akıl Treni Kurs Merkezi | Başarıya Giden Yol",
+    description:
+      "Alanında uzman öğretmen kadrosu ve güçlü takip sistemiyle hedeflerine ulaş.",
+    images: ["/og-image.jpg"],
   },
 };
 

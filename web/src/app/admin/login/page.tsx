@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Image from "next/image";
 import { loginAction } from "./actions";
 import styles from "./login.module.css";
 
@@ -10,7 +11,15 @@ export default function LoginPage() {
   return (
     <div className={styles.wrap}>
       <form className={styles.card} action={formAction}>
-        <div>
+        <div style={{ textAlign: "center" }}>
+          <Image
+            src="/logo.png"
+            alt="Madalyon Akıl Treni"
+            width={84}
+            height={84}
+            priority
+            style={{ borderRadius: "50%", marginBottom: 14 }}
+          />
           <h1 className={styles.title}>Admin Girişi</h1>
           <p className={styles.subtitle}>Madalyon Akıl Treni içerik yönetimi</p>
         </div>

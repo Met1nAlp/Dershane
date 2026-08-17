@@ -1,4 +1,4 @@
-import { FaGraduationCap } from "react-icons/fa6";
+import Image from "next/image";
 import type { SiteSettings, SocialLink, NavLink } from "@prisma/client";
 import { getIcon } from "@/lib/icons";
 import styles from "./Footer.module.css";
@@ -17,9 +17,13 @@ export default function Footer({ siteSettings, socialLinks, navLinks, copyrightS
       <div className="container">
         <div className={styles.top}>
           <div className={styles.brand}>
-            <div className={styles.logoIcon}>
-              <FaGraduationCap size={20} color="#fff" />
-            </div>
+            <Image
+              className={styles.logoIcon}
+              src="/logo.png"
+              alt={siteSettings.brandName}
+              width={48}
+              height={48}
+            />
             <div>
               <div className={styles.logoText}>{siteSettings.brandName}</div>
               <div className={styles.logoSub}>{siteSettings.brandTagline}</div>
