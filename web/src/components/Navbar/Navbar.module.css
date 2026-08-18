@@ -22,6 +22,7 @@
 
 
 .inner {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,30 +33,57 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   cursor: pointer;
 }
 
 /* Logo dairesel ve koyu zeminli; kare rozet yerine dogrudan kendisi duruyor */
 .logoIcon {
-  width: 44px;
-  height: 44px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  box-shadow: 0 3px 10px rgba(27,58,92,0.28);
+  box-shadow: 0 4px 14px rgba(27,58,92,0.28);
 }
 
+/* Iki satirli marka kilidi: tek satira gore yatayda daha dar,
+   dikeyde daha belirgin. */
 .logoText {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--primary);
-  letter-spacing: -0.015em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.06;
   white-space: nowrap;
 }
 
-.logoAccent {
+.logoLine1 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--primary);
+  letter-spacing: 0.02em;
+}
+
+/* letter-spacing iki satirin genisligini birbirine yaklastiriyor.
+   Olcu `em` oldugu icin font-size buyudugunde oran korunuyor. */
+.logoLine2 {
+  font-size: 0.95rem;
+  font-weight: 800;
   color: var(--accent);
+  letter-spacing: 0.155em;
+  text-indent: 0.155em;
+}
+
+/* Masaustunde yazi blogu logonun ust ve alt sinirina kadar uzuyor
+   (56px logo ~ 55px yazi blogu). Mobilde daha kucuk kaliyor. */
+@media (min-width: 1100px) {
+  .logoLine1 {
+    font-size: 1.8rem;
+  }
+
+  .logoLine2 {
+    font-size: 1.42rem;
+  }
 }
 
 /* Desktop Nav */
@@ -157,7 +185,11 @@
   width: 100%;
 }
 
-@media (max-width: 768px) {
+/* Esik 768 degil 1100: masaustu menusu (marka 245 + linkler 610 + buton 113
+   + bosluklar 64 = 1032px + 48px container dolgusu) ancak ~1086px'den itibaren
+   siginyor. 768'de birakinca dar masaustulerinde "Kayit Ol" butonu ekran
+   disina tasiyordu. */
+@media (max-width: 1099px) {
   .nav, .cta { display: none; }
   .mobileToggle {
     display: flex;
@@ -170,4 +202,32 @@
   .mobileMenu { display: flex; }
   .mobileNavLink { min-height: 44px; }
   .logo { min-height: 44px; }
+}
+
+/* Mobilde uc parcali duzen: logo solda, yazi tam ortada, hamburger sagda.
+   Logo ve hamburger akistan cikarilip mutlak konumlaniyor; boylece akista
+   yalnizca yazi kaliyor ve `justify-content: center` onu bar'in gercek
+   ortasina hizaliyor (logo/hamburger genisligi ortalamayi kaydirmiyor). */
+@media (max-width: 768px) {
+  .inner {
+    justify-content: center;
+  }
+
+  .logoIcon {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .logoText {
+    text-align: center;
+  }
+
+  .mobileToggle {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }

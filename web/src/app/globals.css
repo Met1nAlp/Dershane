@@ -25,7 +25,8 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-full: 9999px;
-  --navbar-h: 86px;
+  /* Navbar 96px (kaydirilinca 84px) — anchor'a inerken payla birlikte */
+  --navbar-h: 96px;
 }
 
 /* Navbar `position: fixed`, icerigi ittirmez — anchor'a scroll edince bolum

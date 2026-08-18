@@ -18,9 +18,13 @@ export default function Navbar({ brandName, navLinks, ctaLabel }: NavbarProps) {
   const [activeHref, setActiveHref] = useState("");
   // Navbar'da yer kısıtlı olduğu için markanın yalnızca ilk üç kelimesi
   // gösterilir (tam resmi ad footer ve sayfa başlığında kullanılıyor).
+  // Iki satirli kilit: ust satir marka, alt satir turuncu vurgu — acilis
+  // ekraniyla (Preloader) ayni dil. toLocaleUpperCase("tr-TR") sart:
+  // toUpperCase() Ingilizce kurali uygulayip "Treni" -> "TRENI" yapiyor.
   const words = brandName.split(" ");
   const [firstWord, ...restWords] = words.slice(0, 3);
-  const restOfBrand = restWords.join(" ");
+  const brandLine1 = firstWord.toLocaleUpperCase("tr-TR");
+  const brandLine2 = restWords.join(" ").toLocaleUpperCase("tr-TR");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -72,12 +76,13 @@ export default function Navbar({ brandName, navLinks, ctaLabel }: NavbarProps) {
             className={styles.logoIcon}
             src="/logo.png"
             alt={brandName}
-            width={44}
-            height={44}
+            width={56}
+            height={56}
             priority
           />
           <span className={styles.logoText}>
-            {firstWord} {restOfBrand && <span className={styles.logoAccent}>{restOfBrand}</span>}
+            <span className={styles.logoLine1}>{brandLine1}</span>
+            {brandLine2 && <span className={styles.logoLine2}>{brandLine2}</span>}
           </span>
         </a>
 

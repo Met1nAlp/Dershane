@@ -299,7 +299,8 @@ async function main() {
       data: [
         { order: 0, label: "Hakkımızda", href: "#hakkimizda" },
         { order: 1, label: "Hizmetler", href: "#hizmetler" },
-        { order: 2, label: "Deneme & Soru Çözümü", href: "#deneme" },
+        // Menude kisa etiket; bolumun tam adi PracticeSectionContent.title'da
+        { order: 2, label: "Denemeler", href: "#deneme" },
         { order: 3, label: "Etkinlikler", href: "#etkinlikler" },
         { order: 4, label: "Başarılar", href: "#basarilar" },
         { order: 5, label: "İletişim", href: "#iletisim" },
