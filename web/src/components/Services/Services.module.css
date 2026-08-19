@@ -67,6 +67,29 @@
   flex-direction: column;
   gap: 28px;
   transition: transform 0.3s ease;
+  /* DENEME: logo filigrani icin — kartin yuvarlak kosesine kirpilsin */
+  position: relative;
+  overflow: hidden;
+}
+
+/* DENEME: her hizmet kartinin sag alt kosesinde tasan logo filigrani.
+   Hakkimizda kartlariyla ayni kose ve ayni dil kullanildi. */
+.slideCard::before {
+  content: "";
+  position: absolute;
+  right: -50px;
+  bottom: -50px;
+  width: 200px;
+  height: 200px;
+  background: url("/logo.png") no-repeat center / contain;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* Mutlak konumlu ::before akistaki metnin uzerine boyanirdi */
+.slideCard > * {
+  position: relative;
+  z-index: 1;
 }
 
 :global(body.dark) .slideCard {

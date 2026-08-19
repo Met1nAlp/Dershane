@@ -15,14 +15,19 @@
   z-index: -1;
 }
 
+/* DENEME: kareli defter dokusu yerine kurum logosu. Dev boyutta ve sol-alt
+   koseden tasarak duruyor — tam ortada duran bir logo "duvar kagidi" gibi
+   algilanirken, kenardan tasan buyuk mark kasitli bir marka imzasi gibi
+   okunuyor. Kartlar beyaz/opak oldugu icin sag tarafa konsa gorunmezdi. */
 .section::before {
-  background-image:
-    linear-gradient(to right, rgba(27, 58, 92, 0.055) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(27, 58, 92, 0.055) 1px, transparent 1px);
-  background-size: 56px 56px;
-  /* Desen kenarlarda erisin, sert kesim olmasin */
-  mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 35%, transparent 85%);
-  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, #000 35%, transparent 85%);
+  background-image: url("/logo.png");
+  background-repeat: no-repeat;
+  background-position: left -170px bottom -150px;
+  background-size: min(880px, 66%);
+  opacity: 0.13;
+  /* Yukari dogru erisin ki metnin arkasinda agirlik yapmasin */
+  mask-image: linear-gradient(to top, #000 45%, transparent 92%);
+  -webkit-mask-image: linear-gradient(to top, #000 45%, transparent 92%);
 }
 
 .section::after {
@@ -120,6 +125,28 @@
   gap: 20px;
   z-index: 1;
   transform-origin: top center;
+  /* DENEME: kart ici logo filigrani yuvarlak koseye kirpilsin */
+  overflow: hidden;
+}
+
+/* DENEME: her kartin sag alt kosesinde tasan logo filigrani */
+.stickyCard::before {
+  content: "";
+  position: absolute;
+  right: -55px;
+  bottom: -55px;
+  width: 210px;
+  height: 210px;
+  background: url("/logo.png") no-repeat center / contain;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+/* Mutlak konumlu ::before, akistaki metnin uzerine boyanirdi; icerik
+   z-index ile ustte tutuluyor. */
+.stickyCard > * {
+  position: relative;
+  z-index: 1;
 }
 
 :global(body.dark) .stickyCard {
@@ -168,6 +195,17 @@
 }
 
 @media (max-width: 900px) {
+  /* Masaustundeki "kenardan tasan dev logo" mobilde sadece bir parca olarak
+     sizip kazara konmus gibi duruyordu; burada tam daire halinde ve altta
+     ortalanmis duruyor. */
+  .section::before {
+    background-position: center bottom -60px;
+    background-size: 300px;
+    opacity: 0.1;
+    mask-image: linear-gradient(to top, #000 55%, transparent 95%);
+    -webkit-mask-image: linear-gradient(to top, #000 55%, transparent 95%);
+  }
+
   .layout { grid-template-columns: 1fr; gap: 40px; }
 
   /* Sticky kapatilmisti; masaustundeki ust uste yigilma efekti mobilde de
