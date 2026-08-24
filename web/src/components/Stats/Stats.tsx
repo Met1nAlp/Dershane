@@ -64,7 +64,7 @@ export default function StatsSection({ statsSection, statsItems }: StatsSectionP
   const sectionRef = useRef<HTMLElement>(null);
 
   return (
-    <section className={styles.statsSection} id="basarilar" ref={sectionRef}>
+    <section className={`${styles.statsSection} brand-watermark`} id="basarilar" ref={sectionRef}>
       <JourneyVideo sectionRef={sectionRef} />
 
       <div className={`container ${styles.container}`}>

@@ -6,6 +6,7 @@
 }
 
 .sectionInner {
+  position: relative;
   padding: 100px 0;
   background: var(--surface);
   border-top-left-radius: 40px;

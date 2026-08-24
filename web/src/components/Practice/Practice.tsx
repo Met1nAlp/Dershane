@@ -41,7 +41,11 @@ const infoVariants: Variants = {
 
 export default function Practice({ sectionContent, items }: PracticeProps) {
   return (
-    <section className="section" id="deneme" style={{ background: "var(--surface)" }}>
+    <section
+      className="section brand-watermark"
+      id="deneme"
+      style={{ background: "var(--surface)", position: "relative" }}
+    >
       <div className="container">
         <motion.div
           className="section-header"

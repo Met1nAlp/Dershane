@@ -72,7 +72,7 @@ export default function Events({ sectionContent, events }: EventsProps) {
 
   return (
     <section className={styles.sectionWrapper} id="etkinlikler" ref={sectionRef}>
-      <motion.div style={{ x }} className={styles.sectionInner}>
+      <motion.div style={{ x }} className={`${styles.sectionInner} brand-watermark`}>
         <div className="container">
           <div className="section-header">
             <span className="badge">{sectionContent.badge}</span>

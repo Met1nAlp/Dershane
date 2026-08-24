@@ -46,7 +46,11 @@ export default function Contact({ sectionContent, contact }: ContactProps) {
   };
 
   return (
-    <section className="section" id="iletisim" style={{ background: "var(--surface)" }}>
+    <section
+      className="section brand-watermark"
+      id="iletisim"
+      style={{ background: "var(--surface)", position: "relative" }}
+    >
       <div className="container">
         <motion.div
           className="section-header"

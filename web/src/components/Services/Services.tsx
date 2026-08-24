@@ -186,7 +186,7 @@ export default function Services({ sectionContent, services }: ServicesProps) {
   return (
     <section id="hizmetler" style={{ background: "var(--bg)" }}>
       <div ref={targetRef} className={styles.scrollWrapper}>
-        <div className={styles.stickyContainer}>
+        <div className={`${styles.stickyContainer} brand-watermark`}>
           <SubjectBackdrop category={activeCategory} />
 
           <div className={`container ${styles.headerContainer}`}>
