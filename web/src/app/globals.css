@@ -43,6 +43,12 @@ section[id] {
    sirasina gore `.stickyContainer`'in `sticky`'sini ezme riski vardi. */
 .brand-watermark {
   isolation: isolate;
+  /* Filigran kose disina tastigi icin, kapsayicisi kirpmayan bolumlerde
+     (orn. #deneme) sayfayi yatayda kaydirilabilir hale getiriyordu.
+     `clip` bilerek `hidden` yerine: kaydirma kapsayicisi YARATMADIGI icin
+     icerideki position:sticky (Services slider, Stats kartlari) calismaya
+     devam eder — `hidden` olsaydi onlari bozardi. */
+  overflow: clip;
 }
 
 .brand-watermark::after {

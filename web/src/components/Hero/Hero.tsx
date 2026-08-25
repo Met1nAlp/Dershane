@@ -96,6 +96,8 @@ export default function Hero({ hero, heroStats }: HeroProps) {
     <section className={styles.hero}>
       <div className={styles.bg} />
       <div className={styles.overlay} />
+      {/* Bulanik logo: gradyan katmaninin ustunde, icerigin altinda durur */}
+      <div className={styles.logoGlow} aria-hidden="true" />
       <canvas ref={canvasRef} className={styles.canvas} />
 
       <div className={`container ${styles.content}`} style={{ transform: `translateY(${scrollY * 0.3}px)` }}>

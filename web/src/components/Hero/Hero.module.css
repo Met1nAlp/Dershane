@@ -28,6 +28,36 @@
   );
 }
 
+/* Bulanik ("flou") logo. z-index 1: .overlay/.canvas (auto=0) uzerinde ama
+   .content (z-index 2) altinda.
+
+   Ortada ve buyuk (musteri tercihi). Metnin arkasina denk geldigi icin
+   opaklik bilerek dusuk: blur azaldikca logo daha net "leke"ler olusturdugu
+   icin ORTALAMA degil EN KOTU YEREL kontrast belirleyici. blur(7px)'te
+   0.10 opaklikta en kotu nokta 4.36 (AA esigi 4.5'in altinda), 0.07'de
+   4.52 ile esigin ustunde kaliyor. */
+.logoGlow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(420px, 60vw, 880px);
+  aspect-ratio: 1;
+  background: url("/logo.png") no-repeat center / contain;
+  filter: blur(7px);
+  opacity: 0.07;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .logoGlow {
+    width: clamp(300px, 82vw, 440px);
+    filter: blur(6px);
+    opacity: 0.07;
+  }
+}
+
 .canvas {
   position: absolute;
   inset: 0;
