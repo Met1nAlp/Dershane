@@ -86,12 +86,24 @@ section[id] {
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  /* Sayfa hicbir zaman kendi basina yatayda kaydirilmamali. `hidden` degil
+     `clip` kullaniliyor: `hidden` (ve `auto`/`scroll`) yeni bir kaydirma
+     kapsayicisi yaratir ve CSS Overflow spec'ine gore overflow-y'yi de
+     zorla `auto`'ya cevirir — bu da sayfa genelindeki position:sticky
+     ogeleri (About kart yigilmasi, Hizmetler/Basarilar) bozuyordu (test
+     edildi). `clip` scroll kapasitesi yaratmadan sadece boyar, sticky
+     etkilenmez. Bilerek yatay kaydirilan ic bilesenleri (Hizmetler/
+     Etkinlikler/Denemeler slider'lari) etkilemez — onlarin kendi
+     overflow-x:auto/scroll'u var. */
+  overflow-x: clip;
 }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background-color: var(--bg);
   color: var(--text-primary);
+  overflow-x: clip;
+  max-width: 100vw;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
