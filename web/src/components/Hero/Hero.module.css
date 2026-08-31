@@ -31,11 +31,12 @@
 /* Bulanik ("flou") logo. z-index 1: .overlay/.canvas (auto=0) uzerinde ama
    .content (z-index 2) altinda.
 
-   Ortada ve buyuk (musteri tercihi). Metnin arkasina denk geldigi icin
-   opaklik bilerek dusuk: blur azaldikca logo daha net "leke"ler olusturdugu
-   icin ORTALAMA degil EN KOTU YEREL kontrast belirleyici. blur(7px)'te
-   0.10 opaklikta en kotu nokta 4.36 (AA esigi 4.5'in altinda), 0.07'de
-   4.52 ile esigin ustunde kaliyor. */
+   Ortada ve buyuk (musteri tercihi). Opaklik olcumle secildi: logo metnin
+   arkasina denk geldigi icin sinirlayici oge Hero alt metni (17.6px, normal
+   agirlik -> WCAG esigi 4.5). Blur azaldikca logo keskin "leke"ler
+   olusturdugundan ORTALAMA degil EN KOTU YEREL kontrast belirleyici.
+   Alt metnin alfasi 0.75 -> 0.9 yapilarak pay acildi; boylece opaklik
+   0.07'den 0.26'ya cikarilabildi ve en kotu nokta yine 4.5'in ustunde. */
 .logoGlow {
   position: absolute;
   left: 50%;
@@ -45,7 +46,7 @@
   aspect-ratio: 1;
   background: url("/logo.png") no-repeat center / contain;
   filter: blur(7px);
-  opacity: 0.07;
+  opacity: 0.26;
   z-index: 1;
   pointer-events: none;
 }
@@ -54,7 +55,7 @@
   .logoGlow {
     width: clamp(300px, 82vw, 440px);
     filter: blur(6px);
-    opacity: 0.07;
+    opacity: 0.24;
   }
 }
 
@@ -110,7 +111,9 @@
 
 .subtext {
   font-size: 1.1rem;
-  color: rgba(27,58,92,0.75);
+  /* 0.75 -> 0.9: arkadaki logo filigrani belirginlestikce kontrast payi
+     gerekiyordu. Basliktan hala daha soluk, hiyerarsi korunuyor. */
+  color: rgba(27,58,92,0.9);
   max-width: 600px;
   line-height: 1.75;
   margin-bottom: 36px;
